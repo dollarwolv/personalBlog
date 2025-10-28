@@ -1,0 +1,26 @@
+{
+  "name": "personalblog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -ws --if-present --parallel",
+    "build": "npm run build -ws --if-present",
+    "start": "npm run start -ws --if-present"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dollarwolv/personalBlog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dollarwolv/personalBlog/issues"
+  },
+  "homepage": "https://github.com/dollarwolv/personalBlog#readme",
+  "description": ""
+}
