@@ -1,8 +1,8 @@
-const express = require("express");
-const signupRouter = require("./routes/sign-up");
+import express from "express";
+import signupRouter from "./routes/sign-up.js";
+
 const app = express();
 app.use(express.json());
-// const prisma = require("./db/prisma");
 
 app.use("/sign-up", signupRouter);
 

@@ -1,10 +1,11 @@
-const Router = require("express");
-const signupRouter = new Router();
-const signupController = require("../controllers/signupController.js");
+import express from "express";
+import { createUser } from "../controllers/signupController.js";
 
-signupRouter.post("/", signupController.createUser);
+const signupRouter = express.Router();
+
+signupRouter.post("/", createUser);
 signupRouter.get("/", (req, res) => {
   res.send("hi");
 });
 
-module.exports = signupRouter;
+export default signupRouter;

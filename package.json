@@ -22,5 +22,8 @@
     "url": "https://github.com/dollarwolv/personalBlog/issues"
   },
   "homepage": "https://github.com/dollarwolv/personalBlog#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.9.1"
+  }
 }

@@ -1,7 +1,7 @@
-const bcrypt = require("bcryptjs");
-const prisma = require("../db/prisma");
+import bcrypt from "bcryptjs";
+import prisma from "../db/prisma.js";
 
-async function createUser(req, res) {
+export async function createUser(req, res) {
   try {
     const { username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,5 +23,3 @@ async function createUser(req, res) {
     });
   }
 }
-
-module.exports = { createUser };
