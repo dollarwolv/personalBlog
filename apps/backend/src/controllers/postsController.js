@@ -10,6 +10,8 @@ export async function getAllPosts(req, res) {
 export async function createPost(req, res) {
   const { id } = req.user;
   const { title, text } = req.body;
+  const { role } = req.user;
+  if (role !== "ADMIN") return res.status(403).send("You can't do that bro.");
   try {
     await prisma.post.create({
       data: {
@@ -46,7 +48,10 @@ export async function updatePost(req, res) {
 
 export async function deletePost(req, res) {
   const { id } = req.params;
+  const { role } = req.user;
+
   try {
+    if (role !== "ADMIN") return res.status(403).send("You can't do that bro.");
     await prisma.post.delete({
       where: {
         id: Number(id),

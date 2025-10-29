@@ -28,27 +28,41 @@ export async function createComment(req, res) {
 }
 
 export async function editComment(req, res) {
-  const commentId = req.params.commentId;
+  const commentId = Number(req.params.commentId);
+  const { id } = req.user;
   const { text } = req.body;
   try {
-    const comment = await prisma.comment.update({
-      where: { id: Number(commentId) },
+    const result = await prisma.comment.updateMany({
+      where: { id: commentId, authorId: id },
       data: { text },
     });
-    res.json({ success: true, comment });
+
+    if (result.count === 0)
+      return res.status(403).send("You can't do that bro.");
+
+    res.json({ success: true });
   } catch (err) {
     res.json({ error: err.message });
   }
 }
 
 export async function deleteComment(req, res) {
-  const commentId = req.params.commentId;
+  const { id, role } = req.user;
+  const commentId = Number(req.params.commentId);
+
   try {
-    const comment = await prisma.comment.delete({
-      where: { id: Number(commentId) },
-    });
+    const where =
+      role === "ADMIN"
+        ? { id: commentId } // admins can delete any comment
+        : { id: commentId, authorId: id }; // users can only delete their own
+
+    const result = await prisma.comment.deleteMany({ where });
+
+    if (result.count === 0)
+      return res.status(403).send("You can't do that bro.");
+
     res.json({ success: true });
   } catch (err) {
-    res.json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 }

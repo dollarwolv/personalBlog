@@ -18,7 +18,11 @@ export function configurePassport() {
           },
         });
         if (!user) return done(null, false);
-        return done(null, { id: user.id, username: user.username });
+        return done(null, {
+          id: user.id,
+          username: user.username,
+          role: user.role,
+        });
       } catch (err) {
         return done(err, false);
       }
