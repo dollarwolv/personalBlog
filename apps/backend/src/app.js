@@ -4,12 +4,15 @@ import loginRouter from "./routes/log-in.js";
 import postsRouter from "./routes/posts.js";
 import { requireJwt, configurePassport } from "./config/passport.js";
 import passport from "passport";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
 
 configurePassport();
 app.use(passport.initialize());
+
+app.use(cors());
 
 app.use("/sign-up", signupRouter);
 app.use("/log-in", loginRouter);
