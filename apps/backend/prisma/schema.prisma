@@ -44,12 +44,12 @@ model Post {
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   text      String
-  author    User?    @relation(fields: [authorId], references: [id])
+  author    User?     @relation(fields: [authorId], references: [id])
   authorId  String?
-  Post      Post     @relation(fields: [postId], references: [id])
+  Post      Post      @relation(fields: [postId], references: [id])
   postId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
 }
