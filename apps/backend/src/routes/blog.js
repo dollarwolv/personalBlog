@@ -5,5 +5,6 @@ import { requireJwt } from "../config/passport.js";
 
 blogRouter.get("/", blogController.getAllPosts);
 blogRouter.post("/new", requireJwt, blogController.createPost);
+blogRouter.put("/:id", requireJwt, blogController.updatePost);
 
 export default blogRouter;

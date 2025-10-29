@@ -8,7 +8,7 @@ export async function getAllPosts(req, res) {
 }
 
 export async function createPost(req, res) {
-  let { id } = req.user;
+  const { id } = req.user;
   const { title, text } = req.body;
   try {
     await prisma.post.create({
@@ -20,6 +20,26 @@ export async function createPost(req, res) {
     });
     res.json({ success: true });
   } catch (err) {
-    res.json({ error: err });
+    res.json({ error: err.message });
+  }
+}
+
+export async function updatePost(req, res) {
+  const { id } = req.params;
+  const { title, text } = req.body;
+  try {
+    const post = await prisma.post.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        title,
+        text,
+        updatedAt: new Date(),
+      },
+    });
+    res.json({ success: true });
+  } catch (err) {
+    res.json({ error: err.message });
   }
 }
