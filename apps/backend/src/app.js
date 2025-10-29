@@ -1,7 +1,7 @@
 import express from "express";
 import signupRouter from "./routes/sign-up.js";
 import loginRouter from "./routes/log-in.js";
-import blogRouter from "./routes/blog.js";
+import postsRouter from "./routes/posts.js";
 import { requireJwt, configurePassport } from "./config/passport.js";
 import passport from "passport";
 
@@ -13,7 +13,7 @@ app.use(passport.initialize());
 
 app.use("/sign-up", signupRouter);
 app.use("/log-in", loginRouter);
-app.use("/blog", blogRouter);
+app.use("/posts", postsRouter);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
