@@ -8,9 +8,18 @@ export async function getAllPosts(req, res) {
 }
 
 export async function createPost(req, res) {
-  console.log(req.user);
-  //   await prisma.post.create({
-  //     data: {},
-  //   });
-  res.json({ message: "great success" });
+  let { id } = req.user;
+  const { title, text } = req.body;
+  try {
+    await prisma.post.create({
+      data: {
+        authorId: id,
+        title,
+        text,
+      },
+    });
+    res.json({ success: true });
+  } catch (err) {
+    res.json({ error: err });
+  }
 }
