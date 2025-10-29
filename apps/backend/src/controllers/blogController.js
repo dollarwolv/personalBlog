@@ -43,3 +43,17 @@ export async function updatePost(req, res) {
     res.json({ error: err.message });
   }
 }
+
+export async function deletePost(req, res) {
+  const { id } = req.params;
+  try {
+    await prisma.post.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    res.json({ success: true });
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+}
