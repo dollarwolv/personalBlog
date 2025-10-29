@@ -57,3 +57,13 @@ export async function deletePost(req, res) {
     res.json({ error: err.message });
   }
 }
+
+export async function getOnePost(req, res) {
+  const { id } = req.params;
+  try {
+    const post = await prisma.post.findUnique({ where: { id: Number(id) } });
+    res.json({ success: true, post: post });
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+}
