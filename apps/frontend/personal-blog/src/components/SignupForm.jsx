@@ -21,28 +21,34 @@ function SignupForm() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex max-w-60 flex-col rounded-md bg-gray-800 text-white"
+        className="m-auto flex w-120 flex-col gap-6 rounded-lg border border-gray-600 bg-gray-800 p-8 text-white"
       >
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="johnpork69"
-          className="text-white"
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          name="password"
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="********"
-        />
-        <button type="submit" className="">
+        <div className="flex flex-col gap-2 ">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="johnpork69"
+            className="rounded-md border border-gray-600 bg-gray-700 p-2 text-white"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="password">Password</label>
+          <input
+            name="password"
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="********"
+            className="rounded-md bg-gray-700 p-2 text-white"
+          />
+        </div>
+
+        <button type="submit" className="rounded-md bg-blue-600 p-2">
           Sign up
         </button>
       </form>

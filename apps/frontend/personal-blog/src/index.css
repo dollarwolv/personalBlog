@@ -1,1 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --font-main: "Figtree", sans-serif;
+}
+
+.small-responsive-text {
+  font-size: calc(14px + ((21 - 14) * (100vw - 390px) / (1728 - 390)));
+}
