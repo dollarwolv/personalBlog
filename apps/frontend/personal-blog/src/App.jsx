@@ -1,6 +1,5 @@
 //import { useState } from "react";
 import "./App.css";
-import SignupForm from "./components/SignupForm";
 import HomePage from "./HomePage";
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
   return (
     <div className="flex h-screen">
       <HomePage></HomePage>
-      {/* <SignupForm></SignupForm> */}
     </div>
   );
 }
