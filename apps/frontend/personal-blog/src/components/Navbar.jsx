@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
   const { user, logIn, logOut } = useAuth();
-
   const [showLogin, setShowLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +34,12 @@ function Navbar() {
       <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter">
         [M] MEDIUM
       </a>
+
+      {user?.role === "ADMIN" && (
+        <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter">
+          [C] CREATE
+        </a>
+      )}
 
       {!user && (
         <button
