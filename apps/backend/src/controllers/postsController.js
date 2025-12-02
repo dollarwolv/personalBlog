@@ -65,7 +65,7 @@ export async function createDraft(req, res) {
 
 export async function updatePost(req, res) {
   const { id } = req.params;
-  const { title, text } = req.body;
+  const { title, text, publish } = req.body;
   try {
     const post = await prisma.post.update({
       where: {
@@ -74,7 +74,9 @@ export async function updatePost(req, res) {
       data: {
         title,
         text,
+        published: publish,
         updatedAt: new Date(),
+        ...(publish && { publishedAt: new Date() }),
       },
     });
     res.json({ success: true });

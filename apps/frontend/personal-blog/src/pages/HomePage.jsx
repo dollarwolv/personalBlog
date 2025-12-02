@@ -1,8 +1,42 @@
 import Navbar from "../components/Navbar";
 import plus from "../assets/plus.svg";
 import FeaturedPost from "../components/FeaturedPost";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import square from "../assets/square.svg";
+import trash from "../assets/trash.svg";
 
 function HomePage() {
+  const [posts, setPosts] = useState([]);
+
+  function parseDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    return `${year}.${month + 1}.${day}`;
+  }
+
+  async function getPosts() {
+    try {
+      const res = await fetch("http://localhost:3001/posts", {
+        method: "GET",
+      });
+      if (!res.ok) {
+        throw new Error("Could not get posts.");
+      }
+      const posts = await res.json();
+      setPosts(posts);
+      console.log(posts);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   return (
     <div className="z-10 w-screen bg-[#f2f6f7] p-1.5">
       <Navbar></Navbar>
@@ -49,6 +83,46 @@ function HomePage() {
               }
             />
           </div>
+        </div>
+      </section>
+
+      {/* Feed */}
+      <section className="mt-40">
+        {/* Heading  */}
+        <div className="flex">
+          <h2 className="text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter">
+            Feed
+          </h2>
+          <sup className="ml-2 text-lg">(42)</sup>
+        </div>
+
+        {/* Posts */}
+        <div className="mt-12 flex flex-col p-4">
+          {posts.map((post) => {
+            return (
+              <Link
+                to={`/edit/${post.id}`}
+                className="flex border-t py-2.5"
+                key={post.id}
+              >
+                <img src={square} alt="square" className="mx-2 my-auto h-2" />
+                <div className="my-auto pr-4 text-[12px]">
+                  {parseDate(post.createdAt)}
+                </div>
+                <div className="my-auto text-3xl">{post.title}</div>
+                <img
+                  src={trash}
+                  alt="delete post"
+                  className="my-auto ml-auto w-8"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleDelete(post.id);
+                  }}
+                />
+              </Link>
+            );
+          })}
         </div>
       </section>
     </div>

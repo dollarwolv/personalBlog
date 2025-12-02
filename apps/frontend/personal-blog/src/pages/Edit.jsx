@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function Edit() {
   const [mainBody, setmainBody] = useState("");
   const [title, setTitle] = useState("");
+  const [published, setPublished] = useState(false);
 
   // allows me to navigate to homepage after submitting draft
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function Edit() {
     console.log(data);
     setTitle(data.post.title);
     setmainBody(data.post.text);
+    setPublished(data.post.published);
   }
 
   // on launch and anytime id changes, get the post
@@ -34,34 +36,54 @@ function Edit() {
     getPost();
   }, [id]);
 
-  // saves to draft
-  function handleDraft() {
-    fetch(`http://localhost:3001/posts/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ title: title, text: mainBody }),
-    }).then((res) => console.log(res));
+  // updates draft
+  async function handleDraft() {
+    try {
+      const res = await fetch(`http://localhost:3001/posts/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: title,
+          text: mainBody,
+          ...(published && { publish: false }),
+        }),
+      });
+      if (!res.ok) {
+        throw new Error("Something went wrong updating the draft.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
     setmainBody("");
     setTitle("");
     navigate("/drafts");
   }
 
   // posts directly
-  function handlePost() {
-    fetch("http://localhost:3001/posts/new-draft", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ title: title, text: mainBody }),
-    }).then((res) => console.log(res));
-    setmainBody("");
-    setTitle("");
-    navigate("/");
+  async function handlePost() {
+    try {
+      await fetch(`http://localhost:3001/posts/${id}/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: title,
+          text: mainBody,
+          publish: true,
+        }),
+      });
+      setmainBody("");
+      setTitle("");
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -108,19 +130,40 @@ function Edit() {
 
       {/* Save/submit buttons  */}
       <div className="mt-4 flex flex-col gap-1">
-        <button
-          onClick={handleDraft}
-          className="w-full rounded-md bg-black/10 p-2"
-        >
-          Save as a draft
-        </button>
-        <button
-          onClick={handlePost}
-          className="w-full rounded-md bg-black/90 p-2 text-white"
-          type="button"
-        >
-          Publish directly
-        </button>
+        {!published && (
+          <>
+            <button
+              onClick={handleDraft}
+              className="w-full rounded-md bg-black/10 p-2"
+            >
+              Save as a draft
+            </button>
+            <button
+              onClick={handlePost}
+              className="w-full rounded-md bg-black/90 p-2 text-white"
+              type="button"
+            >
+              Publish directly
+            </button>
+          </>
+        )}
+        {published && (
+          <>
+            <button
+              onClick={handleDraft}
+              className="w-full rounded-md bg-black/10 p-2"
+            >
+              Unpublish and save changes
+            </button>
+            <button
+              onClick={handlePost}
+              className="w-full rounded-md bg-black/90 p-2 text-white"
+              type="button"
+            >
+              Edit published version
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

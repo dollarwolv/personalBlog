@@ -3,6 +3,7 @@ import plus from "../assets/plus.svg";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function Create() {
   const [mainBody, setmainBody] = useState("");
@@ -80,19 +81,22 @@ function Create() {
 
       {/* Save/submit buttons  */}
       <div className="mt-4 flex flex-col gap-1">
-        <button
+        <Link
+          to={"/drafts"}
           onClick={handleDraft}
-          className="w-full rounded-md bg-black/10 p-2"
+          className="w-full rounded-md bg-black/10 p-2 text-center"
+          type="button"
         >
           Save as a draft
-        </button>
-        <button
+        </Link>
+        <Link
+          to={"/"}
           onClick={handlePost}
-          className="w-full rounded-md bg-black/90 p-2 text-white"
+          className="w-full rounded-md bg-black/90 p-2 text-center text-white"
           type="button"
         >
           Publish directly
-        </button>
+        </Link>
       </div>
     </div>
   );
