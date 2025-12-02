@@ -8,6 +8,20 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (token) localStorage.setItem("token", token);
     else localStorage.removeItem("token");
+
+    async function loadUser() {
+      try {
+        const res = await fetch("http://localhost:3001/me", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const user = await res.json();
+        setUser(user);
+      } catch (error) {}
+    }
+    loadUser();
   }, [token]);
 
   async function logIn(username, password) {
