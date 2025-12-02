@@ -5,6 +5,7 @@ import { requireJwt } from "../config/passport.js";
 import commentsRouter from "./comments.js";
 
 postsRouter.get("/", postsController.getAllPosts);
+postsRouter.get("/drafts", postsController.getAllDrafts);
 postsRouter.post("/new", requireJwt, postsController.createPost);
 postsRouter.post("/new-draft", requireJwt, postsController.createDraft);
 postsRouter.put("/:id", requireJwt, postsController.updatePost);

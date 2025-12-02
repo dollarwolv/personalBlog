@@ -7,6 +7,18 @@ export async function getAllPosts(req, res) {
   res.json(posts);
 }
 
+export async function getAllDrafts(req, res) {
+  const posts = await prisma.post.findMany({
+    where: {
+      published: {
+        equals: false,
+      },
+    },
+    orderBy: [{ createdAt: "desc" }],
+  });
+  res.json(posts);
+}
+
 export async function createPost(req, res) {
   const { id } = req.user;
   const { title, text } = req.body;

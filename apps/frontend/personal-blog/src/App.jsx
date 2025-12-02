@@ -1,6 +1,8 @@
 import HomePage from "./pages/HomePage";
+import Drafts from "./pages/Drafts";
 import Create from "./pages/Create";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Edit from "./pages/Edit";
 
 function App() {
   return (
@@ -8,6 +10,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/create" element={<Create />}></Route>
+        <Route path="/drafts" element={<Drafts />}></Route>
+        <Route path="/edit/:id" element={<Edit />}></Route>
       </Routes>
     </BrowserRouter>
   );

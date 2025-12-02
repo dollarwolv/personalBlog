@@ -45,6 +45,15 @@ function Navbar() {
         </Link>
       )}
 
+      {user?.role === "ADMIN" && (
+        <Link
+          to={"/drafts"}
+          className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter"
+        >
+          [D] DRAFTS
+        </Link>
+      )}
+
       {!user && (
         <button
           className="ml-auto bg-black/10 px-2 py-[5px] text-xs tracking-tighter"
