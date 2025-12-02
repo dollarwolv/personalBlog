@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const { user, logIn, logOut } = useAuth();
@@ -36,9 +37,12 @@ function Navbar() {
       </a>
 
       {user?.role === "ADMIN" && (
-        <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter">
+        <Link
+          to={"/create"}
+          className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter"
+        >
           [C] CREATE
-        </a>
+        </Link>
       )}
 
       {!user && (

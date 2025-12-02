@@ -1,6 +1,6 @@
-import Navbar from "./components/Navbar";
-import plus from "./assets/plus.svg";
-import FeaturedPost from "./components/FeaturedPost";
+import Navbar from "../components/Navbar";
+import plus from "../assets/plus.svg";
+import FeaturedPost from "../components/FeaturedPost";
 
 function HomePage() {
   return (

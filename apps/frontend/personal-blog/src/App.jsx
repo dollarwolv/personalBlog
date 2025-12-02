@@ -1,14 +1,15 @@
-//import { useState } from "react";
-import "./App.css";
-import HomePage from "./HomePage";
+import HomePage from "./pages/HomePage";
+import Create from "./pages/Create";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  //const [count, setCount] = useState(0);
-
   return (
-    <div className="flex h-screen">
-      <HomePage></HomePage>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/create" element={<Create />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

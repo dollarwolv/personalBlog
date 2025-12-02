@@ -6,6 +6,7 @@ import commentsRouter from "./comments.js";
 
 postsRouter.get("/", postsController.getAllPosts);
 postsRouter.post("/new", requireJwt, postsController.createPost);
+postsRouter.post("/new-draft", requireJwt, postsController.createDraft);
 postsRouter.put("/:id", requireJwt, postsController.updatePost);
 postsRouter.delete("/:id", requireJwt, postsController.deletePost);
 postsRouter.get("/:id", postsController.getOnePost);
