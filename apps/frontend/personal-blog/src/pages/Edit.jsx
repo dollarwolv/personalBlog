@@ -66,7 +66,7 @@ function Edit() {
 
   return (
     <div className="p-3">
-      <Navbar></Navbar>
+      <Navbar />
       <div className="mt-16 grid grid-cols-9">
         <img src={plus} alt="plus" className="col-start-1 col-end-2 h-2.5" />
         <img src={plus} alt="plus" className="col-start-7 col-end-8 h-2.5" />
