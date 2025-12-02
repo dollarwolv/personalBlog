@@ -2,6 +2,11 @@ import prisma from "../db/prisma.js";
 
 export async function getAllPosts(req, res) {
   const posts = await prisma.post.findMany({
+    where: {
+      published: {
+        equals: true,
+      },
+    },
     orderBy: [{ createdAt: "desc" }],
   });
   res.json(posts);
