@@ -1,10 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 function Navbar() {
-  const { user, logIn, logOut } = useAuth();
+  const { user, logIn, logOut, token } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
