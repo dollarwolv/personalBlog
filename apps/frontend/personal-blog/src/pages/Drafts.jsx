@@ -23,17 +23,18 @@ function Drafts() {
   }
 
   // handles deleting a post.
-  // TODO: add a confirmation before deleting
   async function handleDelete(id) {
     try {
-      const res = await fetch(`http://localhost:3001/posts/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!res.ok) throw new Error("Failed to delete draft");
-      getDrafts();
+      if (confirm("Are you sure you want to delete this article?")) {
+        const res = await fetch(`http://localhost:3001/posts/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!res.ok) throw new Error("Failed to delete draft");
+        getDrafts();
+      }
     } catch (error) {
       console.error(error);
     }

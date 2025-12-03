@@ -26,9 +26,12 @@ function Navbar() {
 
   return (
     <div className="fixed top-0 flex w-full gap-0.5 p-3">
-      <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter">
-        [B] BLOG
-      </a>
+      <Link
+        to={"/"}
+        className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter"
+      >
+        [H] HOME
+      </Link>
       <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter">
         [P] PERSONAL
       </a>
