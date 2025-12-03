@@ -4,9 +4,10 @@ import trash from "../assets/trash.svg";
 import edit from "../assets/edit.svg";
 import Collapsible from "./Collapsible";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function PostButton({ post, user }) {
-  //   const [opened, setOpened] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   function parseDate(dateString) {
     const date = new Date(dateString);
@@ -33,7 +34,10 @@ function PostButton({ post, user }) {
 
   return (
     <>
-      <div className="grid grid-cols-17 border-t py-2.5">
+      <div
+        className="grid grid-cols-17 border-t py-2.5 hover:cursor-pointer"
+        onClick={() => setOpened((prev) => !prev)}
+      >
         <div className="col-start-1 col-end-3 flex">
           <img src={square} alt="square" className="my-auto mr-2 ml-0 h-2" />
           <div className="my-auto pr-4 text-[12px]">
@@ -64,11 +68,23 @@ function PostButton({ post, user }) {
           </div>
         )}
       </div>
-      <Collapsible
-        summary={
-          "Learn how to add stablecoin payments to your Stripe integration in under an hour. Accept USDC on Ethereum, Solana, Polygon, and Base with zero blockchain knowledge—just add 'crypto' to your existing payment methods."
-        }
-      />
+      <AnimatePresence>
+        {opened && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            style={{ overflow: "hidden" }}
+          >
+            <Collapsible
+              summary={
+                "Learn how to add stablecoin payments to your Stripe integration in under an hour. Accept USDC on Ethereum, Solana, Polygon, and Base with zero blockchain knowledge—just add 'crypto' to your existing payment methods."
+              }
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

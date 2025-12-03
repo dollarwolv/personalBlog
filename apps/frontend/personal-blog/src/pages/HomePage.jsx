@@ -51,7 +51,7 @@ function HomePage() {
   return (
     <>
       <Navbar></Navbar>
-      <div className="z-10 w-screen bg-[#f2f6f7] p-1.5">
+      <div className="z-10 w-screen p-1.5">
         <div className="mt-16 grid grid-cols-9">
           <img src={plus} alt="plus" className="col-start-1 col-end-2 h-2.5" />
           <img src={plus} alt="plus" className="col-start-7 col-end-8 h-2.5" />
