@@ -59,7 +59,7 @@ export async function createDraft(req, res) {
   const { role } = req.user;
   if (role !== "ADMIN") return res.status(403).send("You can't do that bro.");
   try {
-    await prisma.post.create({
+    const post = await prisma.post.create({
       data: {
         authorId: id,
         title,
@@ -68,7 +68,7 @@ export async function createDraft(req, res) {
         topic,
       },
     });
-    res.json({ success: true });
+    res.json({ success: true, post });
   } catch (err) {
     res.json({ error: err.message });
   }

@@ -10,8 +10,17 @@ function Create() {
   const [title, setTitle] = useState("");
   const [topic, setTopic] = useState("");
   const [summary, setSummary] = useState("");
+  const [id, setId] = useState(0);
+
+  const [lastSaved, setLastSaved] = useState({});
 
   const { token } = useAuth();
+
+  function anyNonEmptyString(obj) {
+    return Object.values(obj).some(
+      (v) => typeof v === "string" && v.trim().length > 0,
+    );
+  }
 
   function handlePost() {
     fetch("http://localhost:3001/posts/new", {
@@ -31,8 +40,8 @@ function Create() {
     setTitle("");
   }
 
-  function handleDraft() {
-    fetch("http://localhost:3001/posts/new-draft", {
+  async function handleDraft(redirect) {
+    const res = await fetch("http://localhost:3001/posts/new-draft", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,25 +53,94 @@ function Create() {
         topic: topic,
         summary: summary,
       }),
-    }).then((res) => console.log(res));
-    setmainBody("");
-    setTitle("");
+    });
+    const data = await res.json();
+    const post = data.post;
+    setId(post.id);
   }
 
-  // useEffect(() => {
-  //   function handleKeyDown(e) {
-  //     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
-  //       e.preventDefault(); // stops the browser from trying to save the page
-  //       console.log("Saving…");
-  //     }
-  //   }
+  // updates draft
+  async function handleUpdateDraft() {
+    try {
+      const res = await fetch(`http://localhost:3001/posts/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: title,
+          text: mainBody,
+          topic: topic,
+          summary: summary,
+        }),
+      });
 
-  //   window.addEventListener("keydown", handleKeyDown);
+      if (!res.ok) {
+        throw new Error("Something went wrong updating the draft.");
+      }
 
-  //   return () => {
-  //     window.removeEventListener("keydown", handleKeyDown);
+      console.log("draft saved");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // function handleSave() {
+  //   let current = {
+  //     title,
+  //     text: mainBody,
+  //     topic,
+  //     summary,
   //   };
-  // }, []);
+
+  //   console.log(lastSaved);
+  //   console.log(current);
+
+  //   if (
+  //     // if lastSaved is empty and there is something to save
+  //     Object.keys(lastSaved).length === 0 &&
+  //     anyNonEmptyString(current)
+  //   ) {
+  //     handleDraft(false);
+  //     console.log("yo it got saved for the first time");
+  //     setLastSaved(current);
+  //   } else if (
+  //     // if lastSaved is not empty and there have been changes, update draft
+  //     Object.keys(lastSaved).length !== 0 &&
+  //     JSON.stringify(lastSaved) !== JSON.stringify(current)
+  //   ) {
+  //     handleUpdateDraft();
+  //     setLastSaved(current);
+  //   }
+  // }
+
+  // checks for pressing cmd+s
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+
+        const current = { title, text: mainBody, topic, summary };
+
+        // if lastSaved is empty and there is something to save
+        if (Object.keys(lastSaved).length === 0 && anyNonEmptyString(current)) {
+          handleDraft(false);
+          setLastSaved(current);
+        } else if (
+          // if lastSaved is not empty and there have been changes, update draft
+          Object.keys(lastSaved).length !== 0 &&
+          JSON.stringify(lastSaved) !== JSON.stringify(current)
+        ) {
+          handleUpdateDraft();
+          setLastSaved(current);
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [title, mainBody, topic, summary, lastSaved]);
 
   return (
     <>
@@ -141,7 +219,7 @@ function Create() {
         <div className="mt-4 flex flex-col gap-1">
           <Link
             to={"/drafts"}
-            onClick={handleDraft}
+            onClick={() => handleDraft(true)}
             className="w-full rounded-md bg-black/10 p-2 text-center"
             type="button"
           >
