@@ -26,6 +26,7 @@ model User {
   role      Role      @default(USER)
   posts     Post[]
   comments  Comment[]
+  fullname  String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -36,6 +37,8 @@ model Post {
   authorId    String
   title       String
   text        String
+  topic       String?
+  summary     String?
   published   Boolean   @default(false)
   comments    Comment[]
   createdAt   DateTime  @default(now())

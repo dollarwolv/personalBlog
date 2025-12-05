@@ -8,6 +8,13 @@ export async function getAllPosts(req, res) {
       },
     },
     orderBy: [{ createdAt: "desc" }],
+    include: {
+      author: {
+        select: {
+          fullname: true,
+        },
+      },
+    },
   });
   res.json(posts);
 }
@@ -26,7 +33,7 @@ export async function getAllDrafts(req, res) {
 
 export async function createPost(req, res) {
   const { id } = req.user;
-  const { title, text } = req.body;
+  const { title, text, summary, topic } = req.body;
   const { role } = req.user;
   if (role !== "ADMIN") return res.status(403).send("You can't do that bro.");
   try {
@@ -36,6 +43,8 @@ export async function createPost(req, res) {
         published: true,
         title,
         text,
+        summary,
+        topic,
       },
     });
     res.json({ success: true });
@@ -46,7 +55,7 @@ export async function createPost(req, res) {
 
 export async function createDraft(req, res) {
   const { id } = req.user;
-  const { title, text } = req.body;
+  const { title, text, summary, topic } = req.body;
   const { role } = req.user;
   if (role !== "ADMIN") return res.status(403).send("You can't do that bro.");
   try {
@@ -55,6 +64,8 @@ export async function createDraft(req, res) {
         authorId: id,
         title,
         text,
+        summary,
+        topic,
       },
     });
     res.json({ success: true });
@@ -65,7 +76,7 @@ export async function createDraft(req, res) {
 
 export async function updatePost(req, res) {
   const { id } = req.params;
-  const { title, text, publish } = req.body;
+  const { title, text, summary, topic, publish } = req.body;
   try {
     const post = await prisma.post.update({
       where: {
@@ -74,6 +85,8 @@ export async function updatePost(req, res) {
       data: {
         title,
         text,
+        summary,
+        topic,
         published: publish,
         updatedAt: new Date(),
         ...(publish && { publishedAt: new Date() }),
@@ -105,7 +118,16 @@ export async function deletePost(req, res) {
 export async function getOnePost(req, res) {
   const { id } = req.params;
   try {
-    const post = await prisma.post.findUnique({ where: { id: Number(id) } });
+    const post = await prisma.post.findUnique({
+      where: { id: Number(id) },
+      include: {
+        author: {
+          select: {
+            fullname: true,
+          },
+        },
+      },
+    });
     res.json({ success: true, post: post });
   } catch (err) {
     res.json({ error: err.message });
