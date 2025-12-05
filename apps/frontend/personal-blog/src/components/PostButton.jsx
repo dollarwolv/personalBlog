@@ -77,11 +77,7 @@ function PostButton({ post, user }) {
             transition={{ duration: 0.3, ease: "easeOut" }}
             style={{ overflow: "hidden" }}
           >
-            <Collapsible
-              summary={
-                "Learn how to add stablecoin payments to your Stripe integration in under an hour. Accept USDC on Ethereum, Solana, Polygon, and Base with zero blockchain knowledge—just add 'crypto' to your existing payment methods."
-              }
-            />
+            <Collapsible post={post} />
           </motion.div>
         )}
       </AnimatePresence>

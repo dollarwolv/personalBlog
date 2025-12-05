@@ -8,6 +8,8 @@ import { useNavigate, useParams } from "react-router-dom";
 function Edit() {
   const [mainBody, setmainBody] = useState("");
   const [title, setTitle] = useState("");
+  const [topic, setTopic] = useState("");
+  const [summary, setSummary] = useState("");
   const [published, setPublished] = useState(false);
 
   // allows me to navigate to homepage after submitting draft
@@ -29,6 +31,8 @@ function Edit() {
     setTitle(data.post.title);
     setmainBody(data.post.text);
     setPublished(data.post.published);
+    setTopic(data.post.topic);
+    setSummary(data.post.summary);
   }
 
   // on launch and anytime id changes, get the post
@@ -48,6 +52,8 @@ function Edit() {
         body: JSON.stringify({
           title: title,
           text: mainBody,
+          topic: topic,
+          summary: summary,
           ...(published && { publish: false }),
         }),
       });
@@ -75,6 +81,8 @@ function Edit() {
         body: JSON.stringify({
           title: title,
           text: mainBody,
+          topic: topic,
+          summary: summary,
           publish: true,
         }),
       });
@@ -119,6 +127,17 @@ function Edit() {
         }}
       />
 
+      {/* Summary */}
+      <textarea
+        type="text"
+        placeholder="Write your summary"
+        className="mt-0 mb-4 h-32 w-full text-2xl text-black placeholder:text-2xl"
+        value={summary}
+        onChange={(e) => {
+          setSummary(e.target.value);
+        }}
+      />
+
       {/* Text editor  */}
       <section>
         <MDEditor value={mainBody} onChange={setmainBody} />
@@ -127,6 +146,17 @@ function Edit() {
           style={{ whiteSpace: "pre-wrap" }}
         />
       </section>
+
+      {/* Topic  */}
+      <input
+        type="text"
+        placeholder="topic"
+        className="mt-8 mb-4 h-8 w-auto rounded border border-dotted p-1 text-xl leading-[84%] font-light tracking-tighter whitespace-nowrap text-black uppercase placeholder:text-xl"
+        value={topic}
+        onChange={(e) => {
+          setTopic(e.target.value);
+        }}
+      />
 
       {/* Save/submit buttons  */}
       <div className="mt-4 flex flex-col gap-1">

@@ -1,13 +1,15 @@
 import Navbar from "../components/Navbar";
 import plus from "../assets/plus.svg";
 import MDEditor from "@uiw/react-md-editor";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 function Create() {
   const [mainBody, setmainBody] = useState("");
   const [title, setTitle] = useState("");
+  const [topic, setTopic] = useState("");
+  const [summary, setSummary] = useState("");
 
   const { token } = useAuth();
 
@@ -18,7 +20,12 @@ function Create() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ title: title, text: mainBody }),
+      body: JSON.stringify({
+        title: title,
+        text: mainBody,
+        topic: topic,
+        summary: summary,
+      }),
     }).then((res) => console.log(res));
     setmainBody("");
     setTitle("");
@@ -31,11 +38,31 @@ function Create() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ title: title, text: mainBody }),
+      body: JSON.stringify({
+        title: title,
+        text: mainBody,
+        topic: topic,
+        summary: summary,
+      }),
     }).then((res) => console.log(res));
     setmainBody("");
     setTitle("");
   }
+
+  // useEffect(() => {
+  //   function handleKeyDown(e) {
+  //     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+  //       e.preventDefault(); // stops the browser from trying to save the page
+  //       console.log("Saving…");
+  //     }
+  //   }
+
+  //   window.addEventListener("keydown", handleKeyDown);
+
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -72,10 +99,21 @@ function Create() {
         <input
           type="text"
           placeholder="Choose a Title"
-          className="mt-8 mb-4 h-12 text-4xl text-black placeholder:text-4xl"
+          className="mt-8 mb-2 h-12 w-full text-4xl text-black placeholder:text-4xl"
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
+          }}
+        />
+
+        {/* Summary */}
+        <textarea
+          type="text"
+          placeholder="Write your summary"
+          className="mt-0 mb-4 h-32 w-full text-2xl text-black placeholder:text-2xl"
+          value={summary}
+          onChange={(e) => {
+            setSummary(e.target.value);
           }}
         />
 
@@ -87,6 +125,17 @@ function Create() {
             style={{ whiteSpace: "pre-wrap" }}
           />
         </section>
+
+        {/* Topic  */}
+        <input
+          type="text"
+          placeholder="topic"
+          className="mt-8 mb-4 h-8 w-auto rounded border border-dotted p-1 text-xl leading-[84%] font-light tracking-tighter whitespace-nowrap text-black uppercase placeholder:text-xl"
+          value={topic}
+          onChange={(e) => {
+            setTopic(e.target.value);
+          }}
+        />
 
         {/* Save/submit buttons  */}
         <div className="mt-4 flex flex-col gap-1">

@@ -6,9 +6,15 @@ import Tag from "../components/Tag";
 import ReactMarkdown from "react-markdown";
 
 function Article() {
-  const [mainBody, setMainBody] = useState("");
-  const [title, setTitle] = useState("");
-  const [publishedAt, setPublishedAt] = useState("");
+  const [post, setPost] = useState({});
+
+  function parseDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    return `${year}.${month + 1}.${day}`;
+  }
 
   const { id } = useParams();
 
@@ -18,10 +24,7 @@ function Article() {
         method: "GET",
       });
       const data = await res.json();
-      const { title, text, publishedAt } = data.post;
-      setTitle(title);
-      setMainBody(text);
-      setPublishedAt(publishedAt);
+      setPost(data.post);
     } catch (error) {
       console.error(error);
     }
@@ -45,7 +48,7 @@ function Article() {
           />
         </div>
         <section className="font-main relative max-w-9/10 pl-1.5 text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter">
-          {title}
+          {post.title}
         </section>
         <div className="mt-2 grid grid-cols-9">
           <img src={plus} alt="plus" className="col-start-1 col-end-2 h-2.5" />
@@ -66,19 +69,19 @@ function Article() {
             <div className="flex flex-col">
               <div className="grid grid-cols-2 border-b-[0.5px] border-dotted py-3 text-[12px] font-light tracking-tighter">
                 <span>DATE:</span>
-                <span>2025.11.25</span>
+                <span>{parseDate(post.publishedAt)}</span>
               </div>
               <div className="grid grid-cols-2 border-b-[0.5px] border-dotted py-3 text-[12px] font-light tracking-tighter">
                 <span>AUTHOR:</span>
-                <Tag className="" title={"JUSTIN DOTZLAW"}></Tag>
+                <Tag className="" title={post.author?.fullname}></Tag>
               </div>
               <div className="grid grid-cols-2 border-b-[0.5px] border-dotted py-3 text-[12px] font-light tracking-tighter">
                 <span>READING TIME:</span>
                 <span>6 MIN READ</span>
               </div>
               <div className="grid grid-cols-2 border-b-[0.5px] border-dotted py-3 text-[12px] font-light tracking-tighter">
-                <span>CATEGORIES:</span>
-                <Tag title={"CRYPTO"}></Tag>
+                <span>TOPIC:</span>
+                <Tag title={post.topic}></Tag>
               </div>
             </div>
           </div>
@@ -89,7 +92,7 @@ function Article() {
               / ARTICLE
             </span>
             <div className="prose prose-h1:mt-10 prose-h1:mb-0 prose-h2:font-light prose-p:text-[18px] prose-h2:text-5xl prose-h2:mt-10 prose-h2:mb-0 prose-h3:mt-10 prose-h3:mb-0 prose-h4:mt-10 prose-h4:mb-0 prose-h5:mt-10 prose-h5:mb-0 prose-h6:mt-10 prose-h6:mb-0 prose-p:mt-6 prose-p:mb-0 prose-ul:mt-6 prose-ul:mb-0 prose-ol:mt-6 prose-ol:mb-0 prose-blockquote:mt-6 prose-blockquote:mb-0 mt-4">
-              <ReactMarkdown>{mainBody}</ReactMarkdown>
+              <ReactMarkdown>{post.text}</ReactMarkdown>
             </div>
           </div>
         </section>
