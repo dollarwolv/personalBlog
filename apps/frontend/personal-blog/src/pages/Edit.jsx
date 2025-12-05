@@ -11,6 +11,14 @@ function Edit() {
   const [topic, setTopic] = useState("");
   const [summary, setSummary] = useState("");
   const [published, setPublished] = useState(false);
+  const [lastSaved, setLastSaved] = useState({});
+
+  // check if any string in an object is not empty
+  function anyNonEmptyString(obj) {
+    return Object.values(obj).some(
+      (v) => typeof v === "string" && v.trim().length > 0,
+    );
+  }
 
   // allows me to navigate to homepage after submitting draft
   const navigate = useNavigate();
@@ -40,8 +48,24 @@ function Edit() {
     getPost();
   }, [id]);
 
+  // checks for pressing cmd+s and saves post
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+
+        const current = { title, text: mainBody, topic, summary };
+        handleDraft(false);
+        setLastSaved(current);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [title, mainBody, topic, summary, lastSaved]);
+
   // updates draft
-  async function handleDraft() {
+  async function handleDraft(redirect) {
     try {
       const res = await fetch(`http://localhost:3001/posts/${id}`, {
         method: "PUT",
@@ -64,9 +88,11 @@ function Edit() {
       console.error(error);
     }
 
-    setmainBody("");
-    setTitle("");
-    navigate("/drafts");
+    if (redirect) {
+      setmainBody("");
+      setTitle("");
+      navigate("/drafts");
+    }
   }
 
   // posts directly

@@ -86,35 +86,6 @@ function Create() {
     }
   }
 
-  // function handleSave() {
-  //   let current = {
-  //     title,
-  //     text: mainBody,
-  //     topic,
-  //     summary,
-  //   };
-
-  //   console.log(lastSaved);
-  //   console.log(current);
-
-  //   if (
-  //     // if lastSaved is empty and there is something to save
-  //     Object.keys(lastSaved).length === 0 &&
-  //     anyNonEmptyString(current)
-  //   ) {
-  //     handleDraft(false);
-  //     console.log("yo it got saved for the first time");
-  //     setLastSaved(current);
-  //   } else if (
-  //     // if lastSaved is not empty and there have been changes, update draft
-  //     Object.keys(lastSaved).length !== 0 &&
-  //     JSON.stringify(lastSaved) !== JSON.stringify(current)
-  //   ) {
-  //     handleUpdateDraft();
-  //     setLastSaved(current);
-  //   }
-  // }
-
   // checks for pressing cmd+s
   useEffect(() => {
     function handleKeyDown(e) {
