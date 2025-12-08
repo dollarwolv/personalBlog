@@ -25,24 +25,24 @@ function Navbar() {
   }
 
   return (
-    <div className="fixed top-0 flex w-full gap-0.5 p-3">
+    <nav className="fixed top-0 z-50 flex w-full gap-0.5 p-3">
       <Link
         to={"/"}
-        className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter"
+        className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
       >
         [H] HOME
       </Link>
-      <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter">
+      <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md">
         [P] PERSONAL
       </a>
-      <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter">
+      <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md">
         [M] MEDIUM
       </a>
 
       {user?.role === "ADMIN" && (
         <Link
           to={"/create"}
-          className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter"
+          className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
         >
           [C] CREATE
         </Link>
@@ -51,7 +51,7 @@ function Navbar() {
       {user?.role === "ADMIN" && (
         <Link
           to={"/drafts"}
-          className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter"
+          className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
         >
           [D] DRAFTS
         </Link>
@@ -59,7 +59,7 @@ function Navbar() {
 
       {!user && (
         <button
-          className="ml-auto bg-black/10 px-2 py-[5px] text-xs tracking-tighter"
+          className="ml-auto bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
           onClick={() => setShowLogin(!showLogin)}
         >
           [L] LOGIN
@@ -68,7 +68,7 @@ function Navbar() {
 
       {user && (
         <button
-          className="ml-auto bg-black/10 px-2 py-[5px] text-xs tracking-tighter"
+          className="ml-auto bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
           onClick={() => logOut()}
         >
           [L] LOG OUT
@@ -108,7 +108,7 @@ function Navbar() {
           </motion.form>
         )}
       </AnimatePresence>
-    </div>
+    </nav>
   );
 }
 

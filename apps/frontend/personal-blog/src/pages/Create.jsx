@@ -16,6 +16,7 @@ function Create() {
 
   const { token } = useAuth();
 
+  // check if any string in an object is not empty
   function anyNonEmptyString(obj) {
     return Object.values(obj).some(
       (v) => typeof v === "string" && v.trim().length > 0,

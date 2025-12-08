@@ -35,7 +35,7 @@ function PostButton({ post, user }) {
   return (
     <>
       <div
-        className="grid grid-cols-17 border-t py-2.5 hover:cursor-pointer"
+        className="grid grid-cols-17 border-b-[0.5px] py-2.5 hover:cursor-pointer"
         onClick={() => setOpened((prev) => !prev)}
       >
         <div className="col-start-1 col-end-3 flex">
@@ -45,7 +45,7 @@ function PostButton({ post, user }) {
           </div>
         </div>
 
-        <div className="col-start-3 col-end-10 my-auto text-3xl">
+        <div className="col-start-3 col-end-17 my-auto truncate text-3xl">
           {post.title}
         </div>
 
