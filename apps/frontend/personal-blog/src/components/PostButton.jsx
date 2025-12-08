@@ -35,7 +35,7 @@ function PostButton({ post, user }) {
   return (
     <>
       <div
-        className="grid grid-cols-17 border-b-[0.5px] py-2.5 hover:cursor-pointer"
+        className="grid grid-cols-17 border-b-[0.5px] py-2.5 hover:cursor-pointer hover:bg-orange-200"
         onClick={() => setOpened((prev) => !prev)}
       >
         <div className="col-start-1 col-end-3 flex">
