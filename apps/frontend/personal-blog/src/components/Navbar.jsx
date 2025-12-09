@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import homeIcon from "../assets/homeicon.svg";
 
 function Navbar() {
   const { user, logIn, logOut, token } = useAuth();
@@ -28,9 +29,9 @@ function Navbar() {
     <nav className="fixed top-0 z-50 flex w-full gap-0.5 bg-transparent p-3">
       <Link
         to={"/"}
-        className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
+        className="flex items-center gap-1 bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
       >
-        [H] HOME
+        <img src={homeIcon} alt="" className="h-2.5" /> HOME
       </Link>
       <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md">
         [P] PERSONAL

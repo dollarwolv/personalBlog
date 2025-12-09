@@ -13,7 +13,6 @@ import crossedCheckbox from "../assets/crossed-checkbox.svg";
 import globeDev from "../assets/globedev.svg";
 
 import FeaturedPost from "../components/FeaturedPost";
-import Collapsible from "../components/Collapsible";
 
 import PostButton from "../components/PostButton";
 import Tag from "../components/Tag";

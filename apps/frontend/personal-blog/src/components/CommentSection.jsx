@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import userIcon from "../assets/userIcon.svg";
 
 function CommentSection({ postid }) {
   const [writeClicked, setWriteClicked] = useState(false);
   const [comment, setComment] = useState("");
-
   const [comments, setComments] = useState([]);
+
+  const { token } = useAuth();
+
+  function parseDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    return `${year}.${month + 1}.${day}`;
+  }
 
   async function getComments() {
     const res = await fetch(`http://localhost:3001/posts/${postid}/comments`, {
@@ -16,6 +27,25 @@ function CommentSection({ postid }) {
     const data = await res.json();
     const com = data.comments;
     setComments(com);
+  }
+
+  async function postComment() {
+    const res = await fetch(`http://localhost:3001/posts/${postid}/comments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        text: comment,
+      }),
+    });
+    if (!res.ok) {
+      throw new Error("Could not post comment.");
+    }
+
+    setComment("");
+    setWriteClicked(false);
   }
 
   useEffect(() => {
@@ -47,20 +77,37 @@ function CommentSection({ postid }) {
             >
               CANCEL
             </button>
-            <button className="inline-block justify-self-start rounded bg-black px-1.5 py-1 leading-[84%] tracking-tighter whitespace-nowrap text-white uppercase">
+            <button
+              onClick={async () => {
+                await postComment();
+                await getComments();
+              }}
+              className="inline-block justify-self-start rounded bg-black px-1.5 py-1 leading-[84%] tracking-tighter whitespace-nowrap text-white uppercase"
+            >
               Post comment
             </button>
           </div>
         )}
       </div>
-      <div>
-        <button
-          onClick={() => {
-            console.log(comments);
-          }}
-        >
-          get comments
-        </button>
+      <div className="mt-4 flex flex-col">
+        {comments.map((comment) => {
+          return (
+            <div key={comment.id} className="flex gap-2 border-t-[0.5px]">
+              <img src={userIcon} alt="" className="mt-4 self-start" />
+              <div className="mx-1 my-3 flex flex-col">
+                <div className="flex flex-row items-center gap-2">
+                  <span className="font-medium">
+                    @{comment.author.username}
+                  </span>
+                  <span className="text-xs font-light">
+                    {parseDate(comment.createdAt)}
+                  </span>
+                </div>
+                <span className="">{comment.text}</span>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

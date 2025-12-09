@@ -1,7 +1,7 @@
 import prisma from "../db/prisma.js";
 
 export async function getAllComments(req, res) {
-  const postId = req.params.id;
+  const postId = Number(req.params.id);
   try {
     const comments = await prisma.comment.findMany({
       where: { postId: Number(postId) },
@@ -22,7 +22,7 @@ export async function getAllComments(req, res) {
 
 export async function createComment(req, res) {
   const { id } = req.user;
-  const { postId } = req.params.id;
+  const postId = Number(req.params.id);
   const { text } = req.body;
   try {
     const comment = await prisma.comment.create({
