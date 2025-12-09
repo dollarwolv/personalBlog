@@ -5,6 +5,13 @@ export async function getAllComments(req, res) {
   try {
     const comments = await prisma.comment.findMany({
       where: { postId: Number(postId) },
+      include: {
+        author: {
+          select: {
+            username: true,
+          },
+        },
+      },
       orderBy: [{ createdAt: "desc" }],
     });
     res.json({ success: true, comments });
