@@ -10,6 +10,7 @@ import openFolder from "../assets/folder-open.svg";
 import rightArrow from "../assets/arrow-right.svg";
 import emptyCheckbox from "../assets/checkbox-empty.svg";
 import crossedCheckbox from "../assets/crossed-checkbox.svg";
+import globeDev from "../assets/globedev.svg";
 
 import FeaturedPost from "../components/FeaturedPost";
 import Collapsible from "../components/Collapsible";
@@ -106,11 +107,14 @@ function HomePage() {
           <img src={plus} alt="plus" className="col-start-1 col-end-2 h-2.5" />
           <img src={plus} alt="plus" className="col-start-7 col-end-8 h-2.5" />
           <img src={plus} alt="plus" className="col-start-9 col-end-10 h-2.5" />
-          <img
-            src={plus}
-            alt="plus"
-            className="col-start-10 col-end-11 h-2.5"
-          />
+          <div className="col-start-10 col-end-11">
+            <img src={plus} alt="plus" className="h-2.5" />
+            <img
+              src={globeDev}
+              alt="globe icon"
+              className="absolute right-2 mt-2"
+            />
+          </div>
         </div>
         <section className="font-main relative max-w-5/8 pl-1.5 text-[calc(100px+((170-100)*(100vw-960px)/(1728-960)))] leading-[84%] tracking-tighter">
           Welcome to Justin's Blog
