@@ -149,6 +149,7 @@ function HomePage() {
               subtitle={
                 "Stripe Workflows is a new way to integrate and extend Stripe with zero complex code. See how to build conditional logic that connects Stripe products,..."
               }
+              effect={"globe"}
             />
             <div className="border-l border-dotted border-gray-400">
               <FeaturedPost
@@ -157,6 +158,7 @@ function HomePage() {
                 subtitle={
                   "Don't miss out on our bi-monthly meetings across the globe, hosted by James Beswick, Ben Smith, Allison Farris, and Brad Johnson...."
                 }
+                effect={"trunk"}
               />
             </div>
           </div>
