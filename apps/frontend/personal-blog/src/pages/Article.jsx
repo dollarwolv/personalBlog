@@ -6,6 +6,8 @@ import Tag from "../components/Tag";
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "../context/AuthContext";
 
+import CommentSection from "../components/CommentSection";
+
 function Article() {
   const [post, setPost] = useState({});
   const [showStickyTitle, setShowStickyTitle] = useState(false);
@@ -124,26 +126,9 @@ function Article() {
               <ReactMarkdown>{post.text}</ReactMarkdown>
             </div>
           </div>
-          <section className="col-start-8 col-end-25 mt-24 pr-4">
-            <span className="flex w-full flex-row border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
-              / COMMENTS
-            </span>
-            <div className="mt-3 mb-2 flex flex-col">
-              <input
-                type="text"
-                placeholder="Write a comment..."
-                className="h-8 w-full border-b-[0.5px] text-black transition-all focus:border-b-2 focus:border-b-black focus:outline-none"
-              />
-              <div className="mt-2 flex gap-1.5 self-end">
-                <button className="inline-block justify-self-start rounded border border-dotted px-1.5 py-1 leading-[84%] font-light tracking-tighter whitespace-nowrap uppercase">
-                  CANCEL
-                </button>
-                <button className="inline-block justify-self-start rounded bg-black px-1.5 py-1 leading-[84%] tracking-tighter whitespace-nowrap text-white uppercase">
-                  Post comment
-                </button>
-              </div>
-            </div>
-          </section>
+
+          {/* Comment section */}
+          <CommentSection postid={id} />
         </section>
       </div>
     </>
