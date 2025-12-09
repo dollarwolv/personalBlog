@@ -7,7 +7,7 @@ function CommentSection({ postid }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
 
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
   function parseDate(dateString) {
     const date = new Date(dateString);

@@ -3,7 +3,6 @@ import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import Marquee from "react-fast-marquee";
 
-import Navbar from "../components/Navbar";
 import plus from "../assets/plus.svg";
 import folder from "../assets/folder.svg";
 import openFolder from "../assets/folder-open.svg";
@@ -13,9 +12,10 @@ import crossedCheckbox from "../assets/crossed-checkbox.svg";
 import globeDev from "../assets/globedev.svg";
 
 import FeaturedPost from "../components/FeaturedPost";
-
+import Navbar from "../components/Navbar";
 import PostButton from "../components/PostButton";
 import Tag from "../components/Tag";
+import Footer from "../components/Footer";
 
 function HomePage() {
   const [posts, setPosts] = useState([]);
@@ -264,6 +264,7 @@ function HomePage() {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 }
