@@ -1,12 +1,16 @@
 import Navbar from "../components/Navbar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import plus from "../assets/plus.svg";
 import Tag from "../components/Tag";
 import ReactMarkdown from "react-markdown";
+import { useAuth } from "../context/AuthContext";
 
 function Article() {
   const [post, setPost] = useState({});
+  const [showStickyTitle, setShowStickyTitle] = useState(false);
+  const { user } = useAuth();
+  const titleRef = useRef();
 
   function parseDate(dateString) {
     const date = new Date(dateString);
@@ -33,11 +37,26 @@ function Article() {
   useEffect(() => {
     fetchPost(id);
   }, [id]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        setShowStickyTitle(!entry.isIntersecting);
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(titleRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <Navbar />
-      <div className="px-3">
-        <div className="mt-16 grid grid-cols-9">
+      <div className="px-3 pt-16">
+        <div className="grid grid-cols-9">
           <img src={plus} alt="plus" className="col-start-1 col-end-2 h-2.5" />
           <img src={plus} alt="plus" className="col-start-7 col-end-8 h-2.5" />
           <img src={plus} alt="plus" className="col-start-9 col-end-10 h-2.5" />
@@ -47,9 +66,12 @@ function Article() {
             className="col-start-10 col-end-11 h-2.5"
           />
         </div>
-        <section className="font-main relative max-w-9/10 pl-1.5 text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter">
+        <div
+          ref={titleRef}
+          className="font-main relative max-w-9/10 pl-1.5 text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter"
+        >
           {post.title}
-        </section>
+        </div>
         <div className="mt-2 grid grid-cols-9">
           <img src={plus} alt="plus" className="col-start-1 col-end-2 h-2.5" />
           <img src={plus} alt="plus" className="col-start-7 col-end-8 h-2.5" />
@@ -62,14 +84,21 @@ function Article() {
         </div>
         <section className="mt-14 grid grid-cols-24">
           {/* Metadata section  */}
-          <div className="col-start-1 col-end-7">
-            <span className="flex w-full flex-row border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
+          <div
+            className={`${showStickyTitle ? "sticky top-15" : ""} col-start-1 col-end-7 flex flex-col self-start`}
+          >
+            <span
+              className={`sticky-title ${showStickyTitle ? "visible" : ""} pb-2 text-[calc(13.296px+1.71898vw)] leading-[84%] tracking-tighter`}
+            >
+              {post.title}
+            </span>
+            <span className="mt-2 flex w-full flex-row border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
               / METADATA
             </span>
             <div className="flex flex-col">
               <div className="grid grid-cols-2 border-b-[0.5px] border-dotted py-3 text-[12px] font-light tracking-tighter">
                 <span>DATE:</span>
-                <span>{parseDate(post.publishedAt)}</span>
+                <span>{parseDate(post.createdAt)}</span>
               </div>
               <div className="grid grid-cols-2 border-b-[0.5px] border-dotted py-3 text-[12px] font-light tracking-tighter">
                 <span>AUTHOR:</span>
@@ -95,6 +124,26 @@ function Article() {
               <ReactMarkdown>{post.text}</ReactMarkdown>
             </div>
           </div>
+          <section className="col-start-8 col-end-25 mt-24 pr-4">
+            <span className="flex w-full flex-row border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
+              / COMMENTS
+            </span>
+            <div className="mt-3 mb-2 flex flex-col">
+              <input
+                type="text"
+                placeholder="Write a comment..."
+                className="h-8 w-full border-b-[0.5px] text-black transition-all focus:border-b-2 focus:border-b-black focus:outline-none"
+              />
+              <div className="mt-2 flex gap-1.5 self-end">
+                <button className="inline-block justify-self-start rounded border border-dotted px-1.5 py-1 leading-[84%] font-light tracking-tighter whitespace-nowrap uppercase">
+                  CANCEL
+                </button>
+                <button className="inline-block justify-self-start rounded bg-black px-1.5 py-1 leading-[84%] tracking-tighter whitespace-nowrap text-white uppercase">
+                  Post comment
+                </button>
+              </div>
+            </div>
+          </section>
         </section>
       </div>
     </>

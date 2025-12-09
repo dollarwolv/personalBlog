@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Collapsible({ post }) {
   return (
-    <div className="grid grid-cols-17 grid-rows-3 pt-5">
+    <div className="grid grid-cols-17 grid-rows-[1fr_auto_auto] border-b-[0.5px] pt-5">
       <span className="col-start-1 col-end-2 text-[12px] font-light tracking-tighter">
         SUMMARY:
       </span>
@@ -22,7 +22,7 @@ function Collapsible({ post }) {
       </div>
       <Link
         to={`/article/${post.id}`}
-        className="col-start-1 col-end-18 row-start-3 row-end-4 inline-flex h-9 items-center justify-center rounded-full border px-3 py-2.5 font-medium hover:bg-black hover:text-white"
+        className="col-start-1 col-end-18 row-start-3 row-end-4 mb-4 inline-flex h-9 items-center justify-center rounded-full border px-3 py-2.5 font-medium hover:bg-black hover:text-white"
       >
         Read
       </Link>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import Marquee from "react-fast-marquee";
 
 import Navbar from "../components/Navbar";
 import plus from "../assets/plus.svg";
@@ -81,6 +82,14 @@ function HomePage() {
     }
   }
 
+  const stats = [
+    ["BOBAS CONSUMED: ", "100+"],
+    ["ARTICLES WRITTEN: ", posts.length + "+"],
+    ["COUNTRIES VISITED: ", "12+"],
+    ["LANGUAGES LEARNED: ", "5+"],
+    ["CODING PROJECTS COMPLETED: ", "10+"],
+  ];
+
   useEffect(() => {
     getPosts();
   }, []);
@@ -149,8 +158,25 @@ function HomePage() {
           </div>
         </section>
 
+        {/* Stats section */}
+        <section>
+          <div className="mt-12 mb-2 border-b border-gray-400">
+            <span className="text-[12px] leading-[84%]">/ STATISTICS</span>
+          </div>
+          <Marquee autoFill={true} pauseOnHover={true} speed={30}>
+            {stats.map((stat) => {
+              return (
+                <div className="ml-3 flex items-center gap-2 border-r border-dotted pr-3">
+                  <span className="text-[12px] font-light">{stat[0]}</span>
+                  <Tag title={stat[1]} className="" />
+                </div>
+              );
+            })}
+          </Marquee>
+        </section>
+
         {/* Feed */}
-        <section className="mt-40">
+        <section className="mt-30">
           {/* Heading  */}
           <div className="mb-12 flex">
             <h2 className="text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter">

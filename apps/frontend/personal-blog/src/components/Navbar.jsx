@@ -25,7 +25,7 @@ function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 z-50 flex w-full gap-0.5 p-3">
+    <nav className="fixed top-0 z-50 flex w-full gap-0.5 bg-transparent p-3">
       <Link
         to={"/"}
         className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
