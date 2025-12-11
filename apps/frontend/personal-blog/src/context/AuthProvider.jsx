@@ -32,7 +32,22 @@ export function AuthProvider({ children }) {
     });
 
     const data = await res.json();
-    if (!res.ok) throw new Error(data.err || "Login failed");
+    if (!res.ok) throw new Error(data.error || "Login failed");
+
+    console.log(data);
+    setToken(data.token);
+    setUser(data.user);
+  }
+
+  async function signUp(username, password) {
+    const res = await fetch("http://localhost:3001/sign-up", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.err || "Signup failed");
 
     console.log(data);
     setToken(data.token);
@@ -45,7 +60,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, logIn, logOut }}>
+    <AuthContext.Provider value={{ user, token, logIn, logOut, signUp }}>
       {children}
     </AuthContext.Provider>
   );

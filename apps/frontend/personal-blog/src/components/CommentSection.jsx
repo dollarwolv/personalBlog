@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import userIcon from "../assets/userIcon.svg";
+import x from "../assets/x-small.svg";
+import { AnimatePresence, motion } from "framer-motion";
+import SignupForm from "./SignupForm";
 
 function CommentSection({ postid }) {
   const [writeClicked, setWriteClicked] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
-  const { token, user } = useAuth();
+  const { token, user, logIn } = useAuth();
 
   function parseDate(dateString) {
     const date = new Date(dateString);
@@ -58,14 +66,45 @@ function CommentSection({ postid }) {
         / COMMENTS
       </span>
       <div className="mt-3 mb-2 flex flex-col">
-        <input
-          type="text"
-          placeholder="Write a comment..."
-          className="h-8 w-full border-b-[0.5px] text-black transition-all focus:border-b-2 focus:border-b-black focus:outline-none"
-          onClick={() => setWriteClicked(true)}
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
+        {user ? (
+          <input
+            type="text"
+            placeholder="Write a comment..."
+            className="h-8 w-full border-b-[0.5px] text-black transition-all focus:border-b-2 focus:border-b-black focus:outline-none"
+            onClick={() => setWriteClicked(true)}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+        ) : (
+          <div className="relative flex flex-col">
+            <div className="flex gap-1 font-light tracking-tighter">
+              <button
+                className="cursor-pointer font-bold"
+                onClick={() => setShowLogin((prev) => !prev)}
+              >
+                Log in
+              </button>
+              <span>or</span>
+              <button
+                className="cursor-pointer font-bold"
+                onClick={() => setShowSignup((prev) => !prev)}
+              >
+                sign up
+              </button>
+              <span>to write a comment.</span>
+            </div>
+            {/* login form  */}
+            <AnimatePresence>
+              {showLogin && (
+                <SignupForm mode={"login"} setShow={setShowLogin} />
+              )}
+              {showSignup && (
+                <SignupForm mode={"signup"} setShow={setShowSignup} />
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+
         {writeClicked && (
           <div className="mt-2 flex gap-1.5 self-end">
             <button
