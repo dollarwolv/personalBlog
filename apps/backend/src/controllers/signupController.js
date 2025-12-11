@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import prisma from "../db/prisma.js";
+import jwt from "jsonwebtoken";
 
 async function createUser(req, res) {
   try {
@@ -11,9 +12,25 @@ async function createUser(req, res) {
         password: hashedPassword,
       },
     });
-    res.send({
-      success: true,
-      msg: null,
+
+    const token = jwt.sign(
+      {
+        sub: user.id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        algorithm: "HS256",
+      }
+    );
+
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+      },
     });
   } catch (err) {
     console.error(err);
