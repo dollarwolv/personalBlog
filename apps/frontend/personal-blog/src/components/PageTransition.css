@@ -1,0 +1,14 @@
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+}
+
+.page-transition-column {
+  position: relative;
+  height: 100%;
+  flex: 1;
+  background: black; /* Change color as you like */
+}

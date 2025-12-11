@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import { useAuth } from "../context/AuthContext";
 
 import CommentSection from "../components/CommentSection";
+import Footer from "../components/Footer";
 
 function Article() {
   const [post, setPost] = useState({});
@@ -131,6 +132,7 @@ function Article() {
           <CommentSection postid={id} />
         </section>
       </div>
+      <Footer />
     </>
   );
 }
