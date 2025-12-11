@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, delay } from "framer-motion";
 import Marquee from "react-fast-marquee";
 
 import plus from "../assets/plus.svg";
@@ -115,13 +115,13 @@ function HomePage() {
             />
           </div>
         </div>
-        <section className="font-main relative max-w-5/8 pl-1.5 text-[calc(100px+((170-100)*(100vw-960px)/(1728-960)))] leading-[84%] tracking-tighter">
+        <h1 className="font-main relative max-w-5/8 pl-1.5 text-[calc(100px+((170-100)*(100vw-960px)/(1728-960)))] leading-[84%] tracking-tighter">
           Welcome to Justin's Blog
-        </section>
-        <section className="font-main px-1.5 pt-[50px] text-[calc(13.296px+1.71898vw)] leading-[84%] tracking-tighter md:max-w-7/8 lg:max-w-26/50">
+        </h1>
+        <h2 className="font-main px-1.5 pt-[50px] text-[calc(13.296px+1.71898vw)] leading-[84%] tracking-tighter md:max-w-7/8 lg:max-w-26/50">
           This is my personal blog where I post about coding, learning
           languages, and my life.
-        </section>
+        </h2>
         {/* plusses */}
         <div className="mt-2 grid grid-cols-9">
           <img src={plus} alt="plus" className="col-start-1 col-end-2 h-2.5" />
