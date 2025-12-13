@@ -38,14 +38,14 @@ function PostButton({ post, user }) {
         className="grid grid-cols-17 border-b-[0.5px] py-2.5 hover:cursor-pointer hover:bg-orange-200"
         onClick={() => setOpened((prev) => !prev)}
       >
-        <div className="col-start-1 col-end-3 flex">
+        <div className="col-start-1 col-end-2 flex md:col-end-3">
           <img src={square} alt="square" className="my-auto mr-2 ml-0 h-2" />
-          <div className="my-auto pr-4 text-[12px]">
+          <div className="my-auto hidden pr-4 text-[12px] md:block">
             {parseDate(post.createdAt)}
           </div>
         </div>
 
-        <div className="col-start-3 col-end-17 my-auto truncate text-3xl">
+        <div className="col-start-2 col-end-17 my-auto truncate text-3xl md:col-start-3">
           {post.title}
         </div>
 

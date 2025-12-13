@@ -71,7 +71,7 @@ function Article() {
         </div>
         <div
           ref={titleRef}
-          className="font-main relative max-w-9/10 pl-1.5 text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter"
+          className="font-main relative mr-4 pl-1.5 text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter md:mr-0 md:max-w-9/10"
         >
           {post.title}
         </div>
@@ -85,10 +85,10 @@ function Article() {
             className="col-start-10 col-end-11 h-2.5"
           />
         </div>
-        <section className="mt-14 grid grid-cols-24">
+        <section className="mt-6 flex flex-col md:mt-14 md:grid md:grid-cols-24">
           {/* Metadata section  */}
           <div
-            className={`${showStickyTitle ? "sticky top-15" : ""} col-start-1 col-end-7 flex flex-col self-start`}
+            className={`${showStickyTitle ? "md:sticky md:top-15" : ""} flex w-full flex-col self-start md:col-start-1 md:col-end-7`}
           >
             <span
               className={`sticky-title ${showStickyTitle ? "visible" : ""} pb-2 text-[calc(13.296px+1.71898vw)] leading-[84%] tracking-tighter`}
@@ -120,7 +120,7 @@ function Article() {
 
           {/* Article main body */}
           <div className="col-start-8 col-end-25">
-            <span className="flex flex-col border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
+            <span className="mt-6 flex flex-col border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter md:mt-0">
               / ARTICLE
             </span>
             <div className="prose prose-h1:mt-10 prose-h1:mb-0 prose-h2:font-light prose-p:text-[18px] prose-h2:text-5xl prose-h2:mt-10 prose-h2:mb-0 prose-h3:mt-10 prose-h3:mb-0 prose-h4:mt-10 prose-h4:mb-0 prose-h5:mt-10 prose-h5:mb-0 prose-h6:mt-10 prose-h6:mb-0 prose-p:mt-6 prose-p:mb-0 prose-ul:mt-6 prose-ul:mb-0 prose-ol:mt-6 prose-ol:mb-0 prose-blockquote:mt-6 prose-blockquote:mb-0 mt-4">

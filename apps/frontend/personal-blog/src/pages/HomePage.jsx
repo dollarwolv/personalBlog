@@ -108,17 +108,19 @@ function HomePage() {
           <img src={plus} alt="plus" className="col-start-9 col-end-10 h-2.5" />
           <div className="col-start-10 col-end-11">
             <img src={plus} alt="plus" className="h-2.5" />
-            <img
-              src={globeDev}
-              alt="globe icon"
-              className="absolute right-2 mt-2"
-            />
+            <div>
+              <img
+                src={globeDev}
+                alt="globe icon"
+                className="hidden md:absolute md:right-2 md:mt-2 md:block"
+              />
+            </div>
           </div>
         </div>
-        <h1 className="font-main relative max-w-5/8 pl-1.5 text-[calc(100px+((170-100)*(100vw-960px)/(1728-960)))] leading-[84%] tracking-tighter">
+        <h1 className="font-main relative pr-4 pl-1.5 text-7xl leading-[84%] tracking-tighter md:max-w-5/8 md:text-[calc(100px+((170-100)*(100vw-960px)/(1728-960)))]">
           Welcome to Justin's Blog
         </h1>
-        <h2 className="font-main px-1.5 pt-[50px] text-[calc(13.296px+1.71898vw)] leading-[84%] tracking-tighter md:max-w-7/8 lg:max-w-26/50">
+        <h2 className="font-main mt-4 px-1.5 pr-4 text-2xl leading-[84%] tracking-tighter md:mt-[50px] md:max-w-7/8 md:pr-0 md:text-[calc(13.296px+1.71898vw)] lg:max-w-26/50">
           This is my personal blog where I post about coding, learning
           languages, and my life.
         </h2>
@@ -141,7 +143,7 @@ function HomePage() {
               / FEATURED ARTICLES
             </span>
           </div>
-          <div className="grid grid-rows-2 md:grid-cols-2 md:grid-rows-none">
+          <div className="grid grid-rows-2 gap-5 md:grid-cols-2 md:grid-rows-none md:gap-0">
             <FeaturedPost
               title={"Introducing Stripe Workflows"}
               tags={["YOUTUBE", "HURENSOHN"]}
@@ -150,7 +152,7 @@ function HomePage() {
               }
               effect={"globe"}
             />
-            <div className="border-l border-dotted border-gray-400">
+            <div className="border-dotted md:border-l md:border-gray-400">
               <FeaturedPost
                 title={"Join a local Stripe Developer Meetup"}
                 tags={["YOUTUBE", "HURENSOHN"]}
@@ -181,9 +183,9 @@ function HomePage() {
         </section>
 
         {/* Feed */}
-        <section className="mt-30">
+        <section className="mt-12 md:mt-30">
           {/* Heading  */}
-          <div className="mb-12 flex">
+          <div className="mb-3 flex md:mb-12">
             <h2 className="text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter">
               Feed
             </h2>
@@ -191,15 +193,15 @@ function HomePage() {
           </div>
 
           {/* Posts */}
-          <div className="grid grid-cols-24 p-4">
+          <div className="flex flex-col p-1 md:grid md:grid-cols-24 md:p-4">
             {/* Filter Section */}
-            <div className="col-start-1 col-end-5 flex flex-col">
+            <div className="flex flex-col md:col-start-1 md:col-end-5">
               <span className="mb-4 grid w-full grid-cols-2 border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
                 <span>/ FILTERS</span>
                 <button className="ml-auto">/ CLEAR FILTERS</button>
               </span>
               <button
-                className="flex flex-row gap-2"
+                className="hidden flex-row gap-2 md:flex"
                 onClick={() => setFiltersOpened((prev) => !prev)}
               >
                 <img
@@ -216,7 +218,8 @@ function HomePage() {
               </button>
 
               {/* Filters list */}
-              <ul className="mt-2.5 ml-[7px]">
+              {/* TODO: Figure out how do make it like on stripe.dev in mobile version (scrollable) */}
+              <ul className="ml-[7px] flex w-full overflow-scroll md:mt-2.5 md:block">
                 {filtersOpened &&
                   categories.map((category) => {
                     const isActive = activeFilters.has(category);
@@ -228,7 +231,7 @@ function HomePage() {
                         transition={{ duration: 0.1, ease: "easeOut" }}
                         style={{ overflow: "hidden" }}
                         key={category}
-                        className="flex flex-row gap-2 border-l-[0.5px] pl-4 text-[14px] text-black/40"
+                        className="flex w-full flex-row gap-2 border-l-[0.5px] px-2 text-[14px] text-black/40 md:px-4"
                         onClick={() => toggleFilters(category)}
                       >
                         <img
@@ -248,11 +251,12 @@ function HomePage() {
             </div>
 
             {/* Post Cards Table */}
-            <div className="col-start-6 col-end-25 flex flex-col">
-              <div className="grid grid-cols-17 border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
+            <div className="flex flex-col md:col-start-6 md:col-end-25">
+              <div className="hidden grid-cols-17 border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter md:grid">
                 <span className="col-start-1 col-end-3">/ DATE</span>
                 <span className="col-start-3 col-end-5">/ NAME</span>
               </div>
+              <div className="mt-4 border-b-[0.5px] md:mt-0 md:border-0"></div>
               {activeFilters.size > 0
                 ? filteredPosts.map((post) => {
                     return <PostButton key={post.id} post={post} user={user} />;

@@ -57,8 +57,9 @@ function FeaturedPost({ title, subtitle, tags, effect }) {
   }, [vantaEffect]);
 
   return (
-    <div className="mt-5 ml-3 flex flex-row gap-3 md:h-[20vw]">
-      <div className="flex w-1/2 flex-col border bg-[#e9e9e9] px-1">
+    <div className="flex h-[45vh] flex-col gap-3 md:mt-5 md:ml-3 md:h-[20vw] md:flex-row">
+      {/* Animation */}
+      <div className="flex h-full flex-col border bg-[#e9e9e9] px-1 md:w-1/2">
         <div className="flex flex-row justify-between bg-[#e9e9e9] py-1">
           <img src={console} alt="" />
           <span className="text-[8px]">[ FIG. 2 ]</span>
@@ -73,7 +74,7 @@ function FeaturedPost({ title, subtitle, tags, effect }) {
       </div>
 
       {/* Actual text and title */}
-      <div className="ml-2 flex h-full max-w-4/10 flex-col gap-3">
+      <div className="ml-2 flex h-auto flex-col gap-3 md:h-full md:max-w-4/10">
         <span className="text-[calc(28px+((33-28)*(100vw-760px)/(1728-760)))] leading-[84%] tracking-tighter">
           {title}
         </span>

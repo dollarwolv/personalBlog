@@ -15,7 +15,7 @@ function Footer() {
         <img src={plus} alt="plus" className="col-start-22 col-end-23 h-2.5" />
         <img src={plus} alt="plus" className="col-start-25 col-end-26 h-2.5" />
       </div>
-      <div className="col-start-1 col-end-6 flex flex-col gap-2">
+      <div className="col-start-1 col-end-12 flex flex-col gap-2 md:col-end-6">
         <span className="flex flex-row gap-2 py-1.5 text-[12px] font-light tracking-tighter">
           / MORE
         </span>
@@ -24,12 +24,12 @@ function Footer() {
         </span>
         <a
           href="https://justindotzlaw.com"
-          className="mt-12 inline-flex h-9 items-center justify-center rounded-full border px-3 py-2.5 font-medium hover:bg-black hover:text-white"
+          className="mt-3 inline-flex h-9 items-center justify-center rounded-full border px-3 py-2.5 font-medium hover:bg-black hover:text-white md:mt-12"
         >
           Visit personal site
         </a>
       </div>
-      <div className="col-start-19 col-end-23 flex flex-col gap-2">
+      <div className="col-start-16 col-end-26 flex flex-col gap-2 md:col-start-19 md:col-end-23">
         <span className="flex flex-row gap-2 py-1.5 text-[12px] font-light tracking-tighter">
           / SOCIAL
         </span>
@@ -76,13 +76,13 @@ function Footer() {
         <img src={plus} alt="plus" className="col-start-22 col-end-23 h-2.5" />
         <img src={plus} alt="plus" className="col-start-25 col-end-26 h-2.5" />
       </div>
-      <div className="col-start-1 col-end-6 self-end">
+      <div className="col-start-1 col-end-12 self-end md:col-end-6">
         <img src={globeDev} alt="globe icon" />
         <span className="text-[12px] font-light tracking-tighter">
           © 2025 JUSTIN DOTZLAW
         </span>
       </div>
-      <div className="col-start-19 col-end-23 flex gap-0.5 self-end">
+      <div className="col-start-16 col-end-26 flex flex-col gap-0.5 self-end md:col-start-19 md:col-end-23 md:flex-row">
         <a
           href="https://github.com/dollarwolv/personalBlog"
           className="py-auto inline-block justify-self-start rounded border border-dotted p-1 text-[12px] leading-[84%] font-light tracking-tighter whitespace-nowrap uppercase hover:bg-green-300"
