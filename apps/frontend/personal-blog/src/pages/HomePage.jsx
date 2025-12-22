@@ -219,7 +219,7 @@ function HomePage() {
 
               {/* Filters list */}
               {/* TODO: Figure out how do make it like on stripe.dev in mobile version (scrollable) */}
-              <ul className="ml-[7px] flex w-full overflow-scroll md:mt-2.5 md:block">
+              <ul className="ml-1 flex w-full items-center gap-3 overflow-x-auto whitespace-nowrap md:mt-2.5 md:mr-0 md:ml-[7px] md:block md:gap-0">
                 {filtersOpened &&
                   categories.map((category) => {
                     const isActive = activeFilters.has(category);
@@ -231,13 +231,13 @@ function HomePage() {
                         transition={{ duration: 0.1, ease: "easeOut" }}
                         style={{ overflow: "hidden" }}
                         key={category}
-                        className="flex w-full flex-row gap-2 border-l-[0.5px] px-2 text-[14px] text-black/40 md:px-4"
+                        className="flex flex-none flex-row gap-1 text-[14px] text-black/40 md:gap-2 md:border-l-[0.5px] md:px-4"
                         onClick={() => toggleFilters(category)}
                       >
                         <img
                           src={isActive ? crossedCheckbox : emptyCheckbox}
                           alt="checkbox icon"
-                          className="my-auto w-4"
+                          className="my-auto hidden w-2.5 md:block md:w-4"
                         />
                         <span
                           className={`${isActive ? "bg-orange-200 text-black" : "text-black/40"} hover:text-black`}

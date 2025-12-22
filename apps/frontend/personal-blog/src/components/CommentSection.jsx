@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import userIcon from "../assets/userIcon.svg";
-import x from "../assets/x-small.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import SignupForm from "./SignupForm";
+import Comment from "./Comment";
 
 function CommentSection({ postid }) {
   const [writeClicked, setWriteClicked] = useState(false);
@@ -11,19 +10,8 @@ function CommentSection({ postid }) {
   const [comments, setComments] = useState([]);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
 
-  const { token, user, logIn } = useAuth();
-
-  function parseDate(dateString) {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    return `${year}.${month + 1}.${day}`;
-  }
+  const { token, user } = useAuth();
 
   async function getComments() {
     const res = await fetch(`http://localhost:3001/posts/${postid}/comments`, {
@@ -131,20 +119,12 @@ function CommentSection({ postid }) {
       <div className="mt-4 flex flex-col">
         {comments.map((comment) => {
           return (
-            <div key={comment.id} className="flex gap-2 border-t-[0.5px]">
-              <img src={userIcon} alt="" className="mt-4 self-start" />
-              <div className="mx-1 my-3 flex flex-col">
-                <div className="flex flex-row items-center gap-2">
-                  <span className="font-medium">
-                    @{comment.author.username}
-                  </span>
-                  <span className="text-xs font-light">
-                    {parseDate(comment.createdAt)}
-                  </span>
-                </div>
-                <span className="">{comment.text}</span>
-              </div>
-            </div>
+            <Comment
+              comment={comment}
+              key={comment.id}
+              postid={postid}
+              getComments={getComments}
+            />
           );
         })}
       </div>
