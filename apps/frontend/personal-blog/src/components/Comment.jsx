@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import userIcon from "../assets/userIcon.svg";
 import trash from "../assets/trash.svg";
 import edit from "../assets/edit.svg";
+import { apiPath } from "../utils/api";
 
 function Comment({ comment, getComments, postid }) {
   const [commentBeingEdited, setCommentBeingEdited] = useState(false);
@@ -20,7 +21,7 @@ function Comment({ comment, getComments, postid }) {
 
   async function handleDeleteComment(commentId) {
     const res = await fetch(
-      `http://localhost:3001/posts/${postid}/comments/${commentId}`,
+      apiPath(`/posts/${postid}/comments/${commentId}`),
       {
         method: "DELETE",
         headers: {
@@ -37,7 +38,7 @@ function Comment({ comment, getComments, postid }) {
 
   async function handleEditComment(commentId) {
     const res = await fetch(
-      `http://localhost:3001/posts/${postid}/comments/${commentId}`,
+      apiPath(`/posts/${postid}/comments/${commentId}`),
       {
         method: "PUT",
         headers: {

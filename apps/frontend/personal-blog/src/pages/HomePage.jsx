@@ -16,6 +16,7 @@ import Navbar from "../components/Navbar";
 import PostButton from "../components/PostButton";
 import Tag from "../components/Tag";
 import Footer from "../components/Footer";
+import { apiPath } from "../utils/api";
 
 function HomePage() {
   const [posts, setPosts] = useState([]);
@@ -29,7 +30,7 @@ function HomePage() {
 
   async function getPosts() {
     try {
-      const res = await fetch("http://localhost:3001/posts", {
+      const res = await fetch(apiPath("/posts"), {
         method: "GET",
       });
       if (!res.ok) {
@@ -70,7 +71,7 @@ function HomePage() {
   async function handleDelete(id) {
     try {
       if (confirm("Are you sure you want to delete this article?")) {
-        const res = await fetch(`http://localhost:3001/posts/${id}`, {
+        const res = await fetch(apiPath(`/posts/${id}`), {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -99,7 +100,7 @@ function HomePage() {
     const ok = checkNumOfFeaturedPosts();
     if (ok || !feature) {
       try {
-        const res = await fetch(`http://localhost:3001/posts/${id}/`, {
+        const res = await fetch(apiPath(`/posts/${id}`), {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { apiPath } from "../utils/api";
 
 function Admin() {
   const [password, setPassword] = useState("");
@@ -10,7 +11,7 @@ function Admin() {
 
   async function makeAdmin() {
     try {
-      const res = await fetch("http://localhost:3001/admin", {
+      const res = await fetch(apiPath("/admin"), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

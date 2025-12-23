@@ -4,6 +4,7 @@ import square from "../assets/square.svg";
 import { Link } from "react-router-dom";
 import trash from "../assets/trash.svg";
 import { useAuth } from "../context/AuthContext";
+import { apiPath } from "../utils/api";
 
 function Drafts() {
   const [drafts, setDrafts] = useState([]);
@@ -11,7 +12,7 @@ function Drafts() {
 
   async function getDrafts() {
     try {
-      const res = await fetch("http://localhost:3001/posts/drafts");
+      const res = await fetch(apiPath("/posts/drafts"));
       if (!res.ok) throw new Error("Failed to fetch drafts");
 
       const drafts = await res.json(); // decode JSON
@@ -26,7 +27,7 @@ function Drafts() {
   async function handleDelete(id) {
     try {
       if (confirm("Are you sure you want to delete this article?")) {
-        const res = await fetch(`http://localhost:3001/posts/${id}`, {
+        const res = await fetch(apiPath(`/posts/${id}`), {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

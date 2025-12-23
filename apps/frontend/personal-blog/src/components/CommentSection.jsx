@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
 import SignupForm from "./SignupForm";
 import Comment from "./Comment";
+import { apiPath } from "../utils/api";
 
 function CommentSection({ postid }) {
   const [writeClicked, setWriteClicked] = useState(false);
@@ -14,7 +15,7 @@ function CommentSection({ postid }) {
   const { token, user } = useAuth();
 
   async function getComments() {
-    const res = await fetch(`http://localhost:3001/posts/${postid}/comments`, {
+    const res = await fetch(apiPath(`/posts/${postid}/comments`), {
       method: "GET",
     });
     if (!res.ok) {
@@ -26,7 +27,7 @@ function CommentSection({ postid }) {
   }
 
   async function postComment() {
-    const res = await fetch(`http://localhost:3001/posts/${postid}/comments`, {
+    const res = await fetch(apiPath(`/posts/${postid}/comments`), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

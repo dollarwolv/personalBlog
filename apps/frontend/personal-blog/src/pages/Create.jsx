@@ -4,6 +4,7 @@ import MDEditor from "@uiw/react-md-editor";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import { apiPath } from "../utils/api";
 
 function Create() {
   const [mainBody, setmainBody] = useState("");
@@ -24,7 +25,7 @@ function Create() {
   }
 
   function handlePost() {
-    fetch("http://localhost:3001/posts/new", {
+    fetch(apiPath("/posts/new"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +43,7 @@ function Create() {
   }
 
   async function handleDraft(redirect) {
-    const res = await fetch("http://localhost:3001/posts/new-draft", {
+    const res = await fetch(apiPath("/posts/new-draft"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +64,7 @@ function Create() {
   // updates draft
   async function handleUpdateDraft() {
     try {
-      const res = await fetch(`http://localhost:3001/posts/${id}`, {
+      const res = await fetch(apiPath(`/posts/${id}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

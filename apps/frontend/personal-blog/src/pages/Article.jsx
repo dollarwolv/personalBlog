@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext";
 
 import CommentSection from "../components/CommentSection";
 import Footer from "../components/Footer";
+import { apiPath } from "../utils/api";
 
 function Article() {
   const [post, setPost] = useState({});
@@ -27,7 +28,7 @@ function Article() {
 
   async function fetchPost() {
     try {
-      const res = await fetch(`http://localhost:3001/posts/${id}`, {
+      const res = await fetch(apiPath(`/posts/${id}`), {
         method: "GET",
       });
       const data = await res.json();

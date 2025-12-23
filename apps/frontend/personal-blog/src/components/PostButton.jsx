@@ -8,9 +8,11 @@ import Collapsible from "./Collapsible";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { apiPath } from "../utils/api";
 
 function PostButton({ post, user, handleFeature }) {
   const [opened, setOpened] = useState(false);
+  const { token } = useAuth();
 
   function parseDate(dateString) {
     const date = new Date(dateString);
@@ -22,7 +24,7 @@ function PostButton({ post, user, handleFeature }) {
   async function handleDelete(id) {
     try {
       if (confirm("Are you sure you want to delete this article?")) {
-        const res = await fetch(`http://localhost:3001/posts/${id}`, {
+        const res = await fetch(apiPath(`/posts/${id}`), {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

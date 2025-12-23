@@ -4,6 +4,7 @@ import MDEditor from "@uiw/react-md-editor";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
+import { apiPath } from "../utils/api";
 
 function Edit() {
   const [mainBody, setmainBody] = useState("");
@@ -31,7 +32,7 @@ function Edit() {
 
   // retrieves the post with the id and sets mainBody and title
   async function getPost() {
-    const res = await fetch(`http://localhost:3001/posts/${id}`, {
+    const res = await fetch(apiPath(`/posts/${id}`), {
       method: "GET",
     });
     const data = await res.json();
@@ -67,7 +68,7 @@ function Edit() {
   // updates draft
   async function handleDraft(redirect) {
     try {
-      const res = await fetch(`http://localhost:3001/posts/${id}`, {
+      const res = await fetch(apiPath(`/posts/${id}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +99,7 @@ function Edit() {
   // posts directly
   async function handlePost() {
     try {
-      await fetch(`http://localhost:3001/posts/${id}/`, {
+      await fetch(apiPath(`/posts/${id}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
