@@ -1,6 +1,6 @@
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
-import userIcon from "../assets/userIcon.svg";
+import userIcon from "../assets/usericon.svg";
 import trash from "../assets/trash.svg";
 import edit from "../assets/edit.svg";
 import { apiPath } from "../utils/api";

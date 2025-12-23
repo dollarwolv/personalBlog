@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import "./pageTransition.css";
+import "./PageTransition.css";
 
 const container = {
   initial: {},
