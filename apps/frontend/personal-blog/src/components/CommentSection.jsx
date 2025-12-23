@@ -53,7 +53,14 @@ function CommentSection({ postid }) {
       <span className="flex w-full flex-row border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
         / COMMENTS
       </span>
-      <div className="mt-3 mb-2 flex flex-col">
+      <form
+        className="mt-3 mb-2 flex flex-col"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await postComment();
+          await getComments();
+        }}
+      >
         {user ? (
           <input
             type="text"
@@ -62,6 +69,7 @@ function CommentSection({ postid }) {
             onClick={() => setWriteClicked(true)}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
+            required
           />
         ) : (
           <div className="relative flex flex-col">
@@ -96,7 +104,9 @@ function CommentSection({ postid }) {
         {writeClicked && (
           <div className="mt-2 flex gap-1.5 self-end">
             <button
-              onClick={() => {
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
                 setWriteClicked(false);
                 setComment("");
               }}
@@ -105,23 +115,21 @@ function CommentSection({ postid }) {
               CANCEL
             </button>
             <button
-              onClick={async () => {
-                await postComment();
-                await getComments();
-              }}
+              type="submit"
               className="inline-block justify-self-start rounded bg-black px-1.5 py-1 leading-[84%] tracking-tighter whitespace-nowrap text-white uppercase"
             >
               Post comment
             </button>
           </div>
         )}
-      </div>
+      </form>
       <div className="mt-4 flex flex-col">
         {comments.map((comment) => {
           return (
             <Comment
               comment={comment}
               key={comment.id}
+              F
               postid={postid}
               getComments={getComments}
             />
