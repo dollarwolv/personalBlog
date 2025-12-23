@@ -3,11 +3,12 @@ import GLOBE from "vanta/dist/vanta.globe.min";
 import BIRDS from "vanta/dist/vanta.birds.min";
 import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
+import { Link } from "react-router-dom";
 
 import console from "../assets/console.svg";
 import settings from "../assets/settings.svg";
 
-function FeaturedPost({ title, subtitle, tags, effect }) {
+function FeaturedPost({ title, subtitle, topic, effect, id }) {
   const [vantaEffect, setVantaEffect] = useState(null);
   const ref = useRef(null);
 
@@ -57,7 +58,10 @@ function FeaturedPost({ title, subtitle, tags, effect }) {
   }, [vantaEffect]);
 
   return (
-    <div className="flex h-[45vh] flex-col gap-3 md:mt-5 md:ml-3 md:h-[20vw] md:flex-row">
+    <Link
+      className="group flex h-[45vh] flex-col gap-3 md:mt-5 md:ml-3 md:h-[20vw] md:flex-row"
+      to={`/article/${id}`}
+    >
       {/* Animation */}
       <div className="flex h-full flex-col border bg-[#e9e9e9] px-1 md:w-1/2">
         <div className="flex flex-row justify-between bg-[#e9e9e9] py-1">
@@ -75,21 +79,21 @@ function FeaturedPost({ title, subtitle, tags, effect }) {
 
       {/* Actual text and title */}
       <div className="ml-2 flex h-auto flex-col gap-3 md:h-full md:max-w-4/10">
-        <span className="text-[calc(28px+((33-28)*(100vw-760px)/(1728-760)))] leading-[84%] tracking-tighter">
+        <span className="text-[calc(28px+((33-28)*(100vw-760px)/(1728-760)))] leading-[84%] tracking-tighter group-hover:bg-orange-200">
           {title}
         </span>
         <div className="mt-auto flex flex-col gap-3">
-          <span className="small-responsive-text mt-auto leading-[84%] tracking-tight">
+          <span className="small-responsive-text mt-auto line-clamp-5 pb-[0.6px] leading-[97%] tracking-tight group-hover:bg-orange-200">
             {subtitle}
           </span>
           <div className="flex gap-1">
-            {tags.map((tag, index) => (
-              <Tag key={index} title={tag}></Tag>
-            ))}
+            <div className="py-auto inline-block justify-self-start rounded border border-dotted p-1 text-[12px] leading-[84%] font-light tracking-tighter whitespace-nowrap uppercase group-hover:bg-orange-200">
+              {topic}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

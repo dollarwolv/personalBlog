@@ -23,7 +23,9 @@ function HomePage() {
   const [filtersOpened, setFiltersOpened] = useState(true);
   const [activeFilters, setActiveFilters] = useState(new Set());
   const [categories, setCategories] = useState([]);
-  const { user } = useAuth();
+  const { user, token } = useAuth();
+
+  const featuredPosts = posts.filter((p) => p.featured);
 
   async function getPosts() {
     try {
@@ -82,6 +84,45 @@ function HomePage() {
     }
   }
 
+  function checkNumOfFeaturedPosts() {
+    let num = 0;
+    for (const post of posts) {
+      if (post.featured) {
+        num++;
+      }
+    }
+    if (num >= 2) return false;
+    return true;
+  }
+
+  async function handleFeature(id, feature) {
+    const ok = checkNumOfFeaturedPosts();
+    if (ok || !feature) {
+      try {
+        const res = await fetch(`http://localhost:3001/posts/${id}/`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            featured: feature,
+          }),
+        });
+        if (!res.ok) {
+          const err = await res.text();
+          throw new Error(err);
+        }
+        getPosts();
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.warn("Too many featured posts");
+      return;
+    }
+  }
+
   const stats = [
     ["BOBAS CONSUMED: ", "100+"],
     ["ARTICLES WRITTEN: ", posts.length + "+"],
@@ -137,33 +178,33 @@ function HomePage() {
         </div>
 
         {/* featured articles */}
-        <section className="mt-12">
-          <div className="mb-2 border-b border-gray-400">
-            <span className="text-[12px] leading-[84%]">
-              / FEATURED ARTICLES
-            </span>
-          </div>
-          <div className="grid grid-rows-2 gap-5 md:grid-cols-2 md:grid-rows-none md:gap-0">
-            <FeaturedPost
-              title={"Introducing Stripe Workflows"}
-              tags={["YOUTUBE", "HURENSOHN"]}
-              subtitle={
-                "Stripe Workflows is a new way to integrate and extend Stripe with zero complex code. See how to build conditional logic that connects Stripe products,..."
-              }
-              effect={"globe"}
-            />
-            <div className="border-dotted md:border-l md:border-gray-400">
-              <FeaturedPost
-                title={"Join a local Stripe Developer Meetup"}
-                tags={["YOUTUBE", "HURENSOHN"]}
-                subtitle={
-                  "Don't miss out on our bi-monthly meetings across the globe, hosted by James Beswick, Ben Smith, Allison Farris, and Brad Johnson...."
-                }
-                effect={"trunk"}
-              />
+        {featuredPosts.length >= 2 && (
+          <section className="mt-12">
+            <div className="mb-2 border-b border-gray-400">
+              <span className="text-[12px] leading-[84%]">
+                / FEATURED ARTICLES
+              </span>
             </div>
-          </div>
-        </section>
+            <div className="grid grid-rows-2 gap-5 md:grid-cols-2 md:grid-rows-none md:gap-0">
+              <FeaturedPost
+                title={featuredPosts[0].title}
+                topic={featuredPosts[0].topic}
+                subtitle={featuredPosts[0].summary}
+                id={featuredPosts[0].id}
+                effect={"globe"}
+              />
+              <div className="border-dotted md:border-l md:border-gray-400">
+                <FeaturedPost
+                  title={featuredPosts[1].title}
+                  topic={featuredPosts[1].topic}
+                  subtitle={featuredPosts[1].summary}
+                  id={featuredPosts[1].id}
+                  effect={"trunk"}
+                />
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Stats section */}
         <section>
@@ -225,7 +266,6 @@ function HomePage() {
               </button>
 
               {/* Filters list */}
-              {/* TODO: Figure out how do make it like on stripe.dev in mobile version (scrollable) */}
               <ul className="ml-1 flex w-full items-center gap-3 overflow-x-auto whitespace-nowrap md:mt-2.5 md:mr-0 md:ml-[7px] md:block md:gap-0">
                 {filtersOpened &&
                   categories.map((category) => {
@@ -266,10 +306,24 @@ function HomePage() {
               <div className="mt-4 border-b-[0.5px] md:mt-0 md:border-0"></div>
               {activeFilters.size > 0
                 ? filteredPosts.map((post) => {
-                    return <PostButton key={post.id} post={post} user={user} />;
+                    return (
+                      <PostButton
+                        key={post.id}
+                        post={post}
+                        user={user}
+                        handleFeature={handleFeature}
+                      />
+                    );
                   })
                 : posts.map((post) => {
-                    return <PostButton key={post.id} post={post} user={user} />;
+                    return (
+                      <PostButton
+                        key={post.id}
+                        post={post}
+                        user={user}
+                        handleFeature={handleFeature}
+                      />
+                    );
                   })}
             </div>
           </div>

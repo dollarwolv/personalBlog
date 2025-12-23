@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 import square from "../assets/square.svg";
 import trash from "../assets/trash.svg";
 import edit from "../assets/edit.svg";
+import featured from "../assets/featured.svg";
+import notfeatured from "../assets/notfeatured.svg";
 import Collapsible from "./Collapsible";
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-function PostButton({ post, user }) {
+function PostButton({ post, user, handleFeature }) {
   const [opened, setOpened] = useState(false);
 
   function parseDate(dateString) {
@@ -45,14 +48,14 @@ function PostButton({ post, user }) {
           </div>
         </div>
 
-        <div className="col-start-2 col-end-17 my-auto truncate text-3xl md:col-start-3">
+        <div className="col-start-2 col-end-16 my-auto truncate text-3xl md:col-start-3">
           {post.title}
         </div>
 
         {/* Edit and delete buttons  */}
         {user?.role === "ADMIN" && (
-          <div className="col-start-17 col-end-18 my-auto flex">
-            <Link to={`/edit/${post.id}`}>
+          <div className="col-start-16 col-end-18 my-auto flex place-self-end">
+            <Link to={`/edit/${post.id}`} className="shrink-0 overflow-visible">
               <img src={edit} alt="edit post" className="w-8" />
             </Link>
             <img
@@ -63,6 +66,17 @@ function PostButton({ post, user }) {
                 e.preventDefault();
                 e.stopPropagation();
                 handleDelete(post.id);
+              }}
+            />
+            <img
+              src={post.featured ? featured : notfeatured}
+              alt="delete post"
+              className="w-8"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log("yippie");
+                handleFeature(post.id, !post.featured);
               }}
             />
           </div>
