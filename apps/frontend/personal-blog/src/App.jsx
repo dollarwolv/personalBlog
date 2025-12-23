@@ -4,6 +4,7 @@ import Create from "./pages/Create";
 import Article from "./pages/Article";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Edit from "./pages/Edit";
+import Admin from "./pages/Admin";
 import PageTransitionOverlay from "./components/PageTransitionOverlay";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/drafts" element={<Drafts />}></Route>
           <Route path="/edit/:id" element={<Edit />}></Route>
           <Route path="/article/:id" element={<Article />}></Route>
+          <Route path="/admin" element={<Admin />}></Route>
         </Routes>
       </motion.div>
     </AnimatePresence>

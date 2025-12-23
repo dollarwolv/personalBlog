@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import homeIcon from "../assets/homeicon.svg";
 
 function Navbar() {
-  const { user, logIn, logOut, token } = useAuth();
+  const { user, logIn, logOut, token, signUp } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +20,16 @@ function Navbar() {
       setUsername("");
       setPassword("");
       setError(null);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function handleSignup(e) {
+    e.preventDefault();
+    try {
+      await signUp(username, password);
+      setShowLogin(false);
     } catch (err) {
       setError(err.message);
     }
@@ -63,7 +73,7 @@ function Navbar() {
           className="ml-auto bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
           onClick={() => setShowLogin(!showLogin)}
         >
-          [L] LOGIN
+          [L] LOGIN / SIGN UP
         </button>
       )}
 
@@ -100,12 +110,21 @@ function Navbar() {
               className="mb-2 block border p-1"
             />
             {error && <p className="text-xs text-red-600">{error}</p>}
-            <button
-              onClick={handleLogin}
-              className="w-full bg-black px-2 py-1 text-white"
-            >
-              Log in
-            </button>
+            <div className="flex flex-row gap-0.5">
+              <button
+                type="button"
+                onClick={handleSignup}
+                className="w-full bg-black/60 px-2 py-1 text-white"
+              >
+                Sign up
+              </button>
+              <button
+                onClick={handleLogin}
+                className="w-full bg-black px-2 py-1 text-white"
+              >
+                Log in
+              </button>
+            </div>
           </motion.form>
         )}
       </AnimatePresence>
