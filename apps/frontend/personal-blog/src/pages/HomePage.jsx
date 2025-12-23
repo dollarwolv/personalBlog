@@ -198,7 +198,14 @@ function HomePage() {
             <div className="flex flex-col md:col-start-1 md:col-end-5">
               <span className="mb-4 grid w-full grid-cols-2 border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
                 <span>/ FILTERS</span>
-                <button className="ml-auto">/ CLEAR FILTERS</button>
+                <button
+                  className="ml-auto hover:cursor-pointer"
+                  onClick={() => {
+                    setActiveFilters(new Set());
+                  }}
+                >
+                  / CLEAR FILTERS
+                </button>
               </span>
               <button
                 className="hidden flex-row gap-2 md:flex"

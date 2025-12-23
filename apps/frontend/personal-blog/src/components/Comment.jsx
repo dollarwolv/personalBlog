@@ -4,9 +4,6 @@ import userIcon from "../assets/userIcon.svg";
 import trash from "../assets/trash.svg";
 import edit from "../assets/edit.svg";
 
-// TODO: Finish editing comment function.
-// Current progress: Can delete, can click edit, but no save button, and input is
-// not wide enough, and it's not immediately clear that it worked.
 function Comment({ comment, getComments, postid }) {
   const [commentBeingEdited, setCommentBeingEdited] = useState(false);
   const [commentText, setCommentText] = useState("");
