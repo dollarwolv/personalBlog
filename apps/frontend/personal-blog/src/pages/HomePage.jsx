@@ -75,23 +75,6 @@ function HomePage() {
     setFilteredPosts(next);
   }
 
-  async function handleDelete(id) {
-    try {
-      if (confirm("Are you sure you want to delete this article?")) {
-        const res = await fetch(apiPath(`/posts/${id}`), {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!res.ok) throw new Error("Failed to delete draft");
-        getDrafts();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   function checkNumOfFeaturedPosts() {
     let num = 0;
     for (const post of posts) {
@@ -321,6 +304,7 @@ function HomePage() {
                         post={post}
                         user={user}
                         handleFeature={handleFeature}
+                        getPosts={getPosts}
                       />
                     );
                   })
@@ -332,6 +316,7 @@ function HomePage() {
                         post={post}
                         user={user}
                         handleFeature={handleFeature}
+                        getPosts={getPosts}
                       />
                     );
                   })

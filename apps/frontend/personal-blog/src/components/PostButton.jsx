@@ -9,10 +9,12 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { apiPath } from "../utils/api";
+import { SquareLoader } from "react-spinners";
 
-function PostButton({ post, user, handleFeature }) {
+function PostButton({ post, user, handleFeature, getPosts }) {
   const [opened, setOpened] = useState(false);
   const { token } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   function parseDate(dateString) {
     const date = new Date(dateString);
@@ -22,6 +24,7 @@ function PostButton({ post, user, handleFeature }) {
     return `${year}.${month + 1}.${day}`;
   }
   async function handleDelete(id) {
+    setLoading(true);
     try {
       if (confirm("Are you sure you want to delete this article?")) {
         const res = await fetch(apiPath(`/posts/${id}`), {
@@ -30,10 +33,13 @@ function PostButton({ post, user, handleFeature }) {
             Authorization: `Bearer ${token}`,
           },
         });
+        getPosts();
         if (!res.ok) throw new Error("Failed to delete post");
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -60,19 +66,24 @@ function PostButton({ post, user, handleFeature }) {
             <Link to={`/edit/${post.id}`} className="shrink-0 overflow-visible">
               <img src={edit} alt="edit post" className="w-8" />
             </Link>
-            <img
-              src={trash}
-              alt="delete post"
-              className="w-8"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleDelete(post.id);
-              }}
-            />
+            {!loading ? (
+              <img
+                src={trash}
+                alt="delete post"
+                className="w-8"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleDelete(post.id);
+                }}
+              />
+            ) : (
+              <SquareLoader size={"12px"} />
+            )}
+
             <img
               src={post.featured ? featured : notfeatured}
-              alt="delete post"
+              alt="feature post"
               className="w-8"
               onClick={(e) => {
                 e.preventDefault();
