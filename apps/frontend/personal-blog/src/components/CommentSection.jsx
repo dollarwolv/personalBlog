@@ -12,12 +12,13 @@ function CommentSection({ postid }) {
   const [comments, setComments] = useState([]);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [commentsLoading, setCommentsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { token, user } = useAuth();
 
   async function getComments() {
-    setLoading(true);
+    setCommentsLoading(true);
     try {
       const res = await fetch(apiPath(`/posts/${postid}/comments`), {
         method: "GET",
@@ -31,7 +32,7 @@ function CommentSection({ postid }) {
     } catch (error) {
       console.error(error.message);
     } finally {
-      setLoading(false);
+      setCommentsLoading(false);
     }
   }
 
@@ -149,7 +150,7 @@ function CommentSection({ postid }) {
         )}
       </form>
       <div className="mt-4 flex flex-col">
-        {!loading ? (
+        {!commentsLoading ? (
           comments.length !== 0 ? (
             comments.map((comment) => {
               return (
