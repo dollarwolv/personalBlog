@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { SquareLoader } from "react-spinners";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import homeIcon from "../assets/homeicon.svg";
@@ -14,6 +15,7 @@ function Navbar() {
 
   async function handleLogin(e) {
     e.preventDefault();
+    setLoading(true);
     try {
       await logIn(username, password);
       setShowLogin(false);
@@ -23,6 +25,7 @@ function Navbar() {
     } catch (err) {
       setError(err.message);
     }
+    setLoading(false);
   }
 
   async function handleSignup(e) {
@@ -109,6 +112,7 @@ function Navbar() {
               type="password"
               className="mb-2 block border p-1"
             />
+            {loading && <SquareLoader size={"12px"} className="mx-auto mb-2" />}
             {error && <p className="text-xs text-red-600">{error}</p>}
             <div className="flex flex-row gap-0.5">
               <button

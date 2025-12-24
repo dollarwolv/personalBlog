@@ -2,16 +2,19 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import x from "../assets/x-small.svg";
 import { motion } from "framer-motion";
+import { SquareLoader } from "react-spinners";
 
 function SignupForm({ mode, setShow }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { logIn, signUp } = useAuth();
 
   async function handleLogin(e) {
     e.preventDefault();
+    setLoading(true);
     try {
       await logIn(username, password);
       setShow(false);
@@ -22,6 +25,7 @@ function SignupForm({ mode, setShow }) {
     } catch (err) {
       setError(err.message);
     }
+    setLoading(false);
   }
 
   async function handleSignup(e) {
@@ -65,7 +69,15 @@ function SignupForm({ mode, setShow }) {
           onClick={mode === "signup" ? handleSignup : handleLogin}
           className="w-full bg-black px-2 py-1 text-white"
         >
-          {mode === "signup" ? "Sign up" : "Log in"}
+          {!loading ? (
+            mode === "signup" ? (
+              "Sign up"
+            ) : (
+              "Log in"
+            )
+          ) : (
+            <SquareLoader size={"12px"} color="#FFFFFF" />
+          )}
         </button>
         <button
           className="absolute top-0.5 right-1 cursor-pointer"
