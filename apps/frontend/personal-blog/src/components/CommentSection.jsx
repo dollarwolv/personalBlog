@@ -18,37 +18,46 @@ function CommentSection({ postid }) {
 
   async function getComments() {
     setLoading(true);
-    const res = await fetch(apiPath(`/posts/${postid}/comments`), {
-      method: "GET",
-    });
-    if (!res.ok) {
-      throw new Error("Could not get comments.");
+    try {
+      const res = await fetch(apiPath(`/posts/${postid}/comments`), {
+        method: "GET",
+      });
+      if (!res.ok) {
+        throw new Error("Could not get comments.");
+      }
+      const data = await res.json();
+      const com = data.comments;
+      setComments(com);
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      setLoading(false);
     }
-    const data = await res.json();
-    const com = data.comments;
-    setComments(com);
-    setLoading(false);
   }
 
   async function postComment() {
     setLoading(true);
-    const res = await fetch(apiPath(`/posts/${postid}/comments`), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        text: comment,
-      }),
-    });
-    if (!res.ok) {
-      throw new Error("Could not post comment.");
+    try {
+      const res = await fetch(apiPath(`/posts/${postid}/comments`), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          text: comment,
+        }),
+      });
+      if (!res.ok) {
+        throw new Error("Could not post comment.");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setComment("");
+      setWriteClicked(false);
+      setLoading(false);
     }
-
-    setComment("");
-    setWriteClicked(false);
-    setLoading(false);
   }
 
   useEffect(() => {
@@ -82,6 +91,7 @@ function CommentSection({ postid }) {
           <div className="relative flex flex-col">
             <div className="flex gap-1 font-light tracking-tighter">
               <button
+                type="button"
                 className="cursor-pointer font-bold"
                 onClick={() => setShowLogin((prev) => !prev)}
               >
@@ -89,6 +99,7 @@ function CommentSection({ postid }) {
               </button>
               <span>or</span>
               <button
+                type="button"
                 className="cursor-pointer font-bold"
                 onClick={() => setShowSignup((prev) => !prev)}
               >
