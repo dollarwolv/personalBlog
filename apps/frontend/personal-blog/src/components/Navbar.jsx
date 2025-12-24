@@ -42,21 +42,21 @@ function Navbar() {
     <nav className="fixed top-0 z-50 flex w-full gap-0.5 bg-transparent p-1.5">
       <Link
         to={"/"}
-        className="flex items-center gap-1 bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
+        className="flex items-center gap-1 bg-black/10 px-2 py-1.25 text-xs tracking-tighter backdrop-blur-md"
       >
         <img src={homeIcon} alt="" className="h-2.5" /> HOME
       </Link>
-      <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md">
+      <a className="bg-black/10 px-2 py-1.25 text-xs tracking-tighter backdrop-blur-md">
         [P] PERSONAL
       </a>
-      <a className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md">
+      <a className="bg-black/10 px-2 py-1.25 text-xs tracking-tighter backdrop-blur-md">
         [M] MEDIUM
       </a>
 
       {user?.role === "ADMIN" && (
         <Link
           to={"/create"}
-          className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
+          className="bg-black/10 px-2 py-1.25 text-xs tracking-tighter backdrop-blur-md"
         >
           [C] CREATE
         </Link>
@@ -65,7 +65,7 @@ function Navbar() {
       {user?.role === "ADMIN" && (
         <Link
           to={"/drafts"}
-          className="bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
+          className="bg-black/10 px-2 py-1.25 text-xs tracking-tighter backdrop-blur-md"
         >
           [D] DRAFTS
         </Link>
@@ -73,7 +73,7 @@ function Navbar() {
 
       {!user && (
         <button
-          className="ml-auto bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
+          className="ml-auto bg-black/10 px-2 py-1.25 text-xs tracking-tighter backdrop-blur-md"
           onClick={() => setShowLogin(!showLogin)}
         >
           [L] LOGIN / SIGN UP
@@ -82,7 +82,7 @@ function Navbar() {
 
       {user && (
         <button
-          className="ml-auto bg-black/10 px-2 py-[5px] text-xs tracking-tighter backdrop-blur-md"
+          className="ml-auto bg-black/10 px-2 py-1.25 text-xs tracking-tighter backdrop-blur-md"
           onClick={() => logOut()}
         >
           [L] LOG OUT

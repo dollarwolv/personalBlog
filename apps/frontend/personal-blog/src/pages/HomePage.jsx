@@ -169,7 +169,7 @@ function HomePage() {
         <h1 className="font-main relative pr-4 pl-1.5 text-7xl leading-[84%] tracking-tighter md:max-w-5/8 md:text-[calc(100px+((170-100)*(100vw-960px)/(1728-960)))]">
           Welcome to Justin's Blog
         </h1>
-        <h2 className="font-main mt-4 px-1.5 pr-4 text-2xl leading-[84%] tracking-tighter md:mt-[50px] md:max-w-7/8 md:pr-0 md:text-[calc(13.296px+1.71898vw)] lg:max-w-26/50">
+        <h2 className="font-main mt-4 px-1.5 pr-4 text-2xl leading-[84%] tracking-tighter md:mt-12.5 md:max-w-7/8 md:pr-0 md:text-[calc(13.296px+1.71898vw)] lg:max-w-26/50">
           This is my personal blog where I post about coding, learning
           languages, and my life.
         </h2>
@@ -274,7 +274,7 @@ function HomePage() {
               </button>
 
               {/* Filters list */}
-              <ul className="ml-1 flex w-full items-center gap-3 overflow-x-auto whitespace-nowrap md:mt-2.5 md:mr-0 md:ml-[7px] md:block md:gap-0">
+              <ul className="ml-1 flex w-full items-center gap-3 overflow-x-auto whitespace-nowrap md:mt-2.5 md:mr-0 md:ml-1.75 md:block md:gap-0">
                 {filtersOpened &&
                   categories.map((category) => {
                     const isActive = activeFilters.has(category);
