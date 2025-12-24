@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence, delay } from "framer-motion";
 import Marquee from "react-fast-marquee";
+import { SquareLoader } from "react-spinners";
 
 import plus from "../assets/plus.svg";
 import folder from "../assets/folder.svg";
@@ -24,11 +25,14 @@ function HomePage() {
   const [filtersOpened, setFiltersOpened] = useState(true);
   const [activeFilters, setActiveFilters] = useState(new Set());
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { user, token } = useAuth();
 
   const featuredPosts = posts.filter((p) => p.featured);
 
   async function getPosts() {
+    setLoading(true);
     try {
       const res = await fetch(apiPath("/posts"), {
         method: "GET",
@@ -41,8 +45,11 @@ function HomePage() {
 
       const seen = new Set(posts.map((p) => p.topic));
       setCategories(Array.from(seen));
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setError(error);
+      setLoading(false);
     }
   }
 
@@ -305,8 +312,9 @@ function HomePage() {
                 <span className="col-start-3 col-end-5">/ NAME</span>
               </div>
               <div className="mt-4 border-b-[0.5px] md:mt-0 md:border-0"></div>
-              {activeFilters.size > 0
-                ? filteredPosts.map((post) => {
+              {!loading ? (
+                activeFilters.size > 0 ? (
+                  filteredPosts.map((post) => {
                     return (
                       <PostButton
                         key={post.id}
@@ -316,7 +324,8 @@ function HomePage() {
                       />
                     );
                   })
-                : posts.map((post) => {
+                ) : (
+                  posts.map((post) => {
                     return (
                       <PostButton
                         key={post.id}
@@ -325,7 +334,17 @@ function HomePage() {
                         handleFeature={handleFeature}
                       />
                     );
-                  })}
+                  })
+                )
+              ) : (
+                <div className="my-4 flex w-full flex-col items-center justify-center gap-2">
+                  <SquareLoader size={"24px"} />
+                  <span className="text-[12px] font-light">
+                    Articles are loading. This may take a few seconds (I'm using
+                    the free version for the backend 😅).
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </section>
