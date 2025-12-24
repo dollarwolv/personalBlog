@@ -4,10 +4,12 @@ import userIcon from "../assets/usericon.svg";
 import trash from "../assets/trash.svg";
 import edit from "../assets/edit.svg";
 import { apiPath } from "../utils/api";
+import { SquareLoader } from "react-spinners";
 
 function Comment({ comment, getComments, postid }) {
   const [commentBeingEdited, setCommentBeingEdited] = useState(false);
   const [commentText, setCommentText] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { token, user } = useAuth();
 
@@ -20,40 +22,43 @@ function Comment({ comment, getComments, postid }) {
   }
 
   async function handleDeleteComment(commentId) {
-    const res = await fetch(
-      apiPath(`/posts/${postid}/comments/${commentId}`),
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+    if (confirm("Are you sure you want to delete this comment?")) {
+      setLoading(true);
+      const res = await fetch(
+        apiPath(`/posts/${postid}/comments/${commentId}`),
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      },
-    );
-    if (!res.ok) {
-      throw new Error("Could not post comment.");
+      );
+      if (!res.ok) {
+        throw new Error("Could not delete comment.");
+      }
+      getComments();
+      setLoading(false);
     }
-    getComments();
   }
 
   async function handleEditComment(commentId) {
-    const res = await fetch(
-      apiPath(`/posts/${postid}/comments/${commentId}`),
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          text: commentText,
-        }),
+    setLoading(true);
+    const res = await fetch(apiPath(`/posts/${postid}/comments/${commentId}`), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    );
+      body: JSON.stringify({
+        text: commentText,
+      }),
+    });
     if (!res.ok) {
       throw new Error("Could not post comment.");
     }
     setCommentBeingEdited(false);
+    setLoading(false);
     getComments();
   }
 
@@ -85,26 +90,39 @@ function Comment({ comment, getComments, postid }) {
               className="w-full rounded border-b-[0.5] border-dotted bg-gray-300/30 p-1"
             />
             <div className="mt-1 flex gap-2 self-end">
-              <button
-                type="button"
-                className="rounded border border-dotted px-1.5 py-1 leading-[84%] font-light tracking-tighter whitespace-nowrap uppercase"
-                onClick={() => {
-                  setCommentBeingEdited(false);
-                  setCommentText(comment.text);
-                }}
-              >
-                Cancel
-              </button>
+              {!loading && (
+                <button
+                  type="button"
+                  className="rounded border border-dotted px-1.5 py-1 leading-[84%] font-light tracking-tighter whitespace-nowrap uppercase"
+                  onClick={() => {
+                    setCommentBeingEdited(false);
+                    setCommentText(comment.text);
+                  }}
+                >
+                  Cancel
+                </button>
+              )}
+
               <button
                 type="submit"
                 className="rounded bg-black px-1.5 py-1 leading-[84%] tracking-tighter whitespace-nowrap text-white uppercase"
               >
-                Submit
+                {!loading ? (
+                  "Submit"
+                ) : (
+                  <SquareLoader size={"12px"} color="#FFFFFF" />
+                )}
               </button>
             </div>
           </form>
         ) : (
-          <span className="">{comment.text}</span>
+          <span className="">
+            {!loading ? (
+              comment.text
+            ) : (
+              <SquareLoader size={"12px"} className="mx-auto" />
+            )}
+          </span>
         )}
       </div>
       {(user?.role === "ADMIN" || comment.authorId === user?.id) &&
@@ -117,7 +135,7 @@ function Comment({ comment, getComments, postid }) {
                 }}
                 className="w-8"
               >
-                <img src={edit} alt="edit post" />
+                <img src={edit} alt="edit comment" />
               </button>
             )}
 
@@ -129,7 +147,7 @@ function Comment({ comment, getComments, postid }) {
                 handleDeleteComment(comment.id);
               }}
             >
-              <img src={trash} alt="delete post" />
+              <img src={trash} alt="delete comment" />
             </button>
           </div>
         )}

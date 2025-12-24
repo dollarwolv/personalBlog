@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
 import SignupForm from "./SignupForm";
 import Comment from "./Comment";
+import { SquareLoader } from "react-spinners";
 import { apiPath } from "../utils/api";
 
 function CommentSection({ postid }) {
@@ -11,10 +12,12 @@ function CommentSection({ postid }) {
   const [comments, setComments] = useState([]);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { token, user } = useAuth();
 
   async function getComments() {
+    setLoading(true);
     const res = await fetch(apiPath(`/posts/${postid}/comments`), {
       method: "GET",
     });
@@ -24,9 +27,11 @@ function CommentSection({ postid }) {
     const data = await res.json();
     const com = data.comments;
     setComments(com);
+    setLoading(false);
   }
 
   async function postComment() {
+    setLoading(true);
     const res = await fetch(apiPath(`/posts/${postid}/comments`), {
       method: "POST",
       headers: {
@@ -43,6 +48,7 @@ function CommentSection({ postid }) {
 
     setComment("");
     setWriteClicked(false);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -104,38 +110,55 @@ function CommentSection({ postid }) {
 
         {writeClicked && (
           <div className="mt-2 flex gap-1.5 self-end">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                setWriteClicked(false);
-                setComment("");
-              }}
-              className="inline-block justify-self-start rounded border border-dotted px-1.5 py-1 leading-[84%] font-light tracking-tighter whitespace-nowrap uppercase"
-            >
-              CANCEL
-            </button>
+            {!loading && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setWriteClicked(false);
+                  setComment("");
+                }}
+                className="inline-block justify-self-start rounded border border-dotted px-1.5 py-1 leading-[84%] font-light tracking-tighter whitespace-nowrap uppercase"
+              >
+                CANCEL
+              </button>
+            )}
+
             <button
               type="submit"
               className="inline-block justify-self-start rounded bg-black px-1.5 py-1 leading-[84%] tracking-tighter whitespace-nowrap text-white uppercase"
             >
-              Post comment
+              {!loading ? (
+                "Post comment"
+              ) : (
+                <SquareLoader size={"12px"} color="#FFFFFF" />
+              )}
             </button>
           </div>
         )}
       </form>
       <div className="mt-4 flex flex-col">
-        {comments.map((comment) => {
-          return (
-            <Comment
-              comment={comment}
-              key={comment.id}
-              F
-              postid={postid}
-              getComments={getComments}
-            />
-          );
-        })}
+        {!loading ? (
+          comments.map((comment) => {
+            return (
+              <Comment
+                comment={comment}
+                key={comment.id}
+                F
+                postid={postid}
+                getComments={getComments}
+              />
+            );
+          })
+        ) : (
+          <div className="my-4 flex w-full flex-col items-center justify-center gap-2">
+            <SquareLoader size={"20px"} />
+            <span className="text-[12px] font-light">
+              Comments are loading. This may take a few seconds (I'm using the
+              free version for the backend 😅).
+            </span>
+          </div>
+        )}
       </div>
     </section>
   );
