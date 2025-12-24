@@ -150,17 +150,23 @@ function CommentSection({ postid }) {
       </form>
       <div className="mt-4 flex flex-col">
         {!loading ? (
-          comments.map((comment) => {
-            return (
-              <Comment
-                comment={comment}
-                key={comment.id}
-                F
-                postid={postid}
-                getComments={getComments}
-              />
-            );
-          })
+          comments.length !== 0 ? (
+            comments.map((comment) => {
+              return (
+                <Comment
+                  comment={comment}
+                  key={comment.id}
+                  F
+                  postid={postid}
+                  getComments={getComments}
+                />
+              );
+            })
+          ) : (
+            <span className="text-[12px] font-light">
+              No comments here yet. Comment something!
+            </span>
+          )
         ) : (
           <div className="my-4 flex w-full flex-col items-center justify-center gap-2">
             <SquareLoader size={"20px"} />
