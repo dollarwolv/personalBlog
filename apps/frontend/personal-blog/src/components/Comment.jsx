@@ -5,6 +5,7 @@ import trash from "../assets/trash.svg";
 import edit from "../assets/edit.svg";
 import { apiPath } from "../utils/api";
 import { SquareLoader } from "react-spinners";
+import { userIcons } from "../utils/userIcons";
 
 function Comment({ comment, getComments, postid }) {
   const [commentBeingEdited, setCommentBeingEdited] = useState(false);
@@ -62,13 +63,32 @@ function Comment({ comment, getComments, postid }) {
     getComments();
   }
 
+  function hashUserIdToIndex(username, modulo) {
+    if (!username || !modulo) return 0;
+    let hash = 0;
+
+    for (let i = 0; i < username.length; i++) {
+      hash = (hash * 31 + username.charCodeAt(i)) >>> 0;
+    }
+
+    return hash % modulo;
+  }
+
   useEffect(() => {
     setCommentText(comment.text);
   }, []);
 
   return (
     <div className="flex gap-2 border-t-[0.5px]">
-      <img src={userIcon} alt="" className="mt-4 self-start" />
+      <img
+        src={
+          userIcons[
+            hashUserIdToIndex(comment.author.username, userIcons.length)
+          ]
+        }
+        alt=""
+        className="mt-4 self-start"
+      />
       <div className="mx-1 my-3 mr-auto flex grow flex-col">
         <div className="mr-auto flex grow flex-row items-center gap-2">
           <span className="font-medium">@{comment.author.username}</span>
