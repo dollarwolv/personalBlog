@@ -5,6 +5,7 @@ import plus from "../assets/plus.svg";
 import Tag from "../components/Tag";
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "../context/AuthContext";
+import { SquareLoader } from "react-spinners";
 
 import CommentSection from "../components/CommentSection";
 import Footer from "../components/Footer";
@@ -13,6 +14,7 @@ import { apiPath } from "../utils/api";
 function Article() {
   const [post, setPost] = useState({});
   const [showStickyTitle, setShowStickyTitle] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const titleRef = useRef();
 
@@ -27,6 +29,7 @@ function Article() {
   const { id } = useParams();
 
   async function fetchPost() {
+    setLoading(true);
     try {
       const res = await fetch(apiPath(`/posts/${id}`), {
         method: "GET",
@@ -36,6 +39,7 @@ function Article() {
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -74,7 +78,7 @@ function Article() {
           ref={titleRef}
           className="font-main relative mr-4 pl-1.5 text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter md:mr-0 md:max-w-9/10"
         >
-          {post.title}
+          {!loading ? post.title : <SquareLoader size={"64px"} />}
         </div>
         <div className="mt-2 grid grid-cols-9">
           <img src={plus} alt="plus" className="col-start-1 col-end-2 h-2.5" />
@@ -94,7 +98,7 @@ function Article() {
             <span
               className={`sticky-title ${showStickyTitle ? "visible" : ""} pb-2 text-[calc(13.296px+1.71898vw)] leading-[84%] tracking-tighter`}
             >
-              {post.title}
+              {!loading ? post.title : <SquareLoader size={"32px"} />}
             </span>
             <span className="mt-2 flex w-full flex-row border-b-[0.5px] py-1.5 text-[12px] font-light tracking-tighter">
               / METADATA
@@ -125,7 +129,17 @@ function Article() {
               / ARTICLE
             </span>
             <div className="prose prose-h1:mt-10 prose-h1:mb-0 prose-h2:font-light prose-p:text-[18px] prose-h2:text-5xl prose-h2:mt-10 prose-h2:mb-0 prose-h3:mt-10 prose-h3:mb-0 prose-h4:mt-10 prose-h4:mb-0 prose-h5:mt-10 prose-h5:mb-0 prose-h6:mt-10 prose-h6:mb-0 prose-p:mt-6 prose-p:mb-0 prose-ul:mt-6 prose-ul:mb-0 prose-ol:mt-6 prose-ol:mb-0 prose-blockquote:mt-6 prose-blockquote:mb-0 mt-4">
-              <ReactMarkdown>{post.text}</ReactMarkdown>
+              {!loading ? (
+                <ReactMarkdown>{post.text}</ReactMarkdown>
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <SquareLoader size={"24px"} />
+                  <span className="text-[14px] font-light">
+                    Article is loading. This may take a few seconds (I'm using
+                    the free version for the backend 😅)
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
