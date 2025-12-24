@@ -26,6 +26,13 @@ function Article() {
     return `${year}.${month + 1}.${day}`;
   }
 
+  function getReadingTime(string) {
+    if (!string) return "?";
+    const words = string.split(" ");
+    let readingTime = words.length / 238;
+    return Math.round(readingTime);
+  }
+
   const { id } = useParams();
 
   async function fetchPost() {
@@ -114,7 +121,7 @@ function Article() {
               </div>
               <div className="grid grid-cols-2 border-b-[0.5px] border-dotted py-3 text-[12px] font-light tracking-tighter">
                 <span>READING TIME:</span>
-                <span>6 MIN READ</span>
+                <span>{`${getReadingTime(post.text)} MIN READ`}</span>
               </div>
               <div className="grid grid-cols-2 border-b-[0.5px] border-dotted py-3 text-[12px] font-light tracking-tighter">
                 <span>TOPIC:</span>
