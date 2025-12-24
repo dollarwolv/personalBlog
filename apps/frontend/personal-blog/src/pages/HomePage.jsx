@@ -238,7 +238,7 @@ function HomePage() {
             <h2 className="text-[calc(54px+((114-54)*(100vw-390px)/(1728-390)))] leading-[84%] tracking-tighter">
               Feed
             </h2>
-            <sup className="ml-2 text-lg">({posts.length})</sup>
+            <sup className="ml-2 text-lg">({loading ? "?" : posts.length})</sup>
           </div>
 
           {/* Posts */}
